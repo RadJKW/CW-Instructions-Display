@@ -77,46 +77,6 @@ class SettingsPage extends StatelessWidget {
           );
         }),
         biggerSpacer,
-        // Text(
-        //   'Navigation Pane Display Mode',
-        //   style: FluentTheme.of(context).typography.subtitle,
-        // ),
-        // spacer,
-        // ...List.generate(PaneDisplayMode.values.length, (index) {
-        //   final mode = PaneDisplayMode.values[index];
-        //   return Padding(
-        //     padding: const EdgeInsets.only(bottom: 8.0),
-        //     child: RadioButton(
-        //       checked: appTheme.displayMode == mode,
-        //       onChanged: (value) {
-        //         if (value) appTheme.displayMode = mode;
-        //       },
-        //       content: Text(
-        //         mode.toString().replaceAll('PaneDisplayMode.', ''),
-        //       ),
-        //     ),
-        //   );
-        // }),
-        // biggerSpacer,
-        // Text('Navigation Indicator',
-        //     style: FluentTheme.of(context).typography.subtitle),
-        // spacer,
-        // ...List.generate(NavigationIndicators.values.length, (index) {
-        //   final mode = NavigationIndicators.values[index];
-        //   return Padding(
-        //     padding: const EdgeInsets.only(bottom: 8.0),
-        //     child: RadioButton(
-        //       checked: appTheme.indicator == mode,
-        //       onChanged: (value) {
-        //         if (value) appTheme.indicator = mode;
-        //       },
-        //       content: Text(
-        //         mode.toString().replaceAll('NavigationIndicators.', ''),
-        //       ),
-        //     ),
-        //   );
-        // }),
-        // biggerSpacer,
         Text('Accent Color',
             style: FluentTheme.of(context).typography.subtitle),
         spacer,
