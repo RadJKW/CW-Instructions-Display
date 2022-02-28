@@ -1,92 +1,176 @@
-# CW-Instructions-Display
+# Z80 Coil Winder
 
-This project will use a Raspberry Pi as an add on to existing z80 Coil Winding Machines. The pi will receive UART messages directly from the z80 that actively provide the current stop of the active coil. Depending on the specific 'Stop Code' sent fro
+# Description
 
-## Getting started
+Read the UART messaging coming from the z80 and display the winder instructions on the screen using a raspberry pi
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+- [ ]  Finish updating Division 3 coil winding practice documentation
+- [ ]  Deploy to other machines
+- [ ]  update custom display stand
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+[Instruction Display - Task List](Z80%20Coil%20W%20ddb31/Instructio%20acf32.csv)
 
-## Add your files
+[Untitled](Z80%20Coil%20W%20ddb31/Untitled%20D%209b372.csv)
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+# Coil Winder Instruction Display
 
-```
-cd existing_repo
-git remote add origin http://10.11.17.211/gitlab/rad/cw-instructions-display.git
-git branch -M main
-git push -uf origin main
-```
+`Jared K West | September 23, 2021`
 
-## Integrate with your tools
+---
 
-- [ ] [Set up project integrations](http://10.11.17.211/gitlab/rad/cw-instructions-display/-/settings/integrations)
+<!-- Table of Contents -->
 
-## Collaborate with your team
+- [Coil Winder Instruction Display](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#coil-winder-instruction-display)
+    - [General Description](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#general-description)
+    - [Objectives & Key Results](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#objectives--key-results)
+        - [R&D: Department](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#rd-department)
+        - [Computer Dept Tasks](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#computer-dept-tasks)
+        - [Coil Dept Tasks](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#coil-dept-tasks)
+    - [Project Documentation](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#project-documentation)
+        - [R&D: Jared West](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#rd-jared-west)
+    - [References](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#references)
+        - [Markdown](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#markdown)
+        - [Python](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#python)
+        - [Linux](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#linux)
+    - [Budgeting and Expenses](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#budgeting-and-expenses)
+        - [Peripherals](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#peripherals)
+        - [Computer](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#computer)
+        - [Engineering Time](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#engineering-time)
+    - [Winding Practices](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#winding-practices)
+    - [Raspberry Pi](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#raspberry-pi)
+        - [Calculate Engineering Time](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#calculate-engineering-time)
+    - [Resources](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#resources)
+        - [Markdown](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#markdown)
+        - [Python](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#python)
+        - [Linux](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#linux)
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+---
 
-## Test and Deploy
+## General Description
 
-Use the built-in continuous integration in GitLab.
+This project will use a [Raspberry Pi 4B](https://www.raspberrypi.org/products/raspberry-pi-4-model-b) to interact with a [HD64180Z](http://www.datasheet-pdf.com/PDF/HD64180Z-Datasheet-Hitachi-516367) `8-BIT CMOS` `Micro Processing Unit`. The interactiction will be to receive custom [Unicode](https://i.stack.imgur.com/SfxYs.png) `Serial Message` overt the `UART` port that is built in to a custom Howard Industries `HD648180Z CPU BOARD`.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+<!-- LINKS -->
 
-***
+Once a `Serial Message` is received the [Raspberry Pi 4B](https://www.raspberrypi.org/products/raspberry-pi-4-model-b) determines a `URL Path` to open with chromium-browser. Howard's Computer department has built a [Web Application](http://svr-webint1/WindingPractices/Home) that is hosted on our local `web server: //svr-webint1`
 
-# Editing this README
+<!-- LINKS -->
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+---
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+<!-- BEGIN -->
 
-## Name
-Choose a self-explaining name for your project.
+## Objectives & Key Results
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+<!--<h3 style="display:inline;"> R&D Dept Tasks</h3>-->
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+### R&D: Department
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+Employee(s):
+`[Jared West](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#jared-west)[Greg Bryant](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#greg-bryant)`
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+- [ ]  ***Management*:** Work with other departments to achieve the [project's objective](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#objectives--key-results)
+- [ ]  ***[Project Proposal](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#project-proposal)* :**
+- [ ]  [Working Prototype](#working-prototype) Deliver a working [Coil Winder Instruction Display](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#coil-winder-instruction-display) system that can be scaled automatically when the [Winding Practices](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#winding-practices) are updated by the `Coil Winding Department`.
+- [ ]  ***[Documentation](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#markdown)* :** Make this project repeatable by another engineer without my support.
+- [ ]  ***[RoadMap](notion://www.notion.so/src/roadmap.md)***
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+### Jared West's Assignments
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+### Computer Dept Tasks
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+`Employee: Dakota Shoemaker`
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+- [ ]  ***[Web Application](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#web-application)* :**
+- [ ]  ***File Management*:**
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+### Coil Dept Tasks
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+`Div 1: Chiquita JonesDiv 2: Joash HolifieldDiv 3: Danny Rogers, Mike Graham, Dolores Washington, Shonda McKenzie`
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+- [ ]  ***Winding Practices*:**
 
-## License
-For open source projects, say how it is licensed.
+### Media Dept Tasks
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+- [ ]  ***Video Shortening*:**
+
+---
+
+## Project Documentation
+
+### R&D: Jared West
+
+*Complilation of knowlege and instructions necessarry to repeat **[this project](notion://www.notion.so/Z80-Coil-Winder-ddb31278a1b345bfa466f00438121516#coil-winder-instruction-display)***
+
+> View Jared's Project Guide
+> 
+> 
+> ### Project Proposal
+> 
+> *Calculate overall projected cost so that a capital project can be created and approved*
+> 
+> 1. Excel Template
+> 2. Quoting Equipment
+> 3. Engineering Time
+> 4. Submit for Approval
+> 5. Approval
+> 
+> ### Getting Started: <sup>***[Python](https://www.python.org/)***</sup>
+> 
+> - ***Windows*** <sup>**[Python 3.9.7](https://www.python.org/downloads/release/python-397/)**</sup>
+>     1. Installation
+>     2. Command Prompt
+>     3. Python (PIP)
+>     4. Virtual Environments
+>     5. Install Visual Studio Code
+> - ***Raspberry Pi OS*** \* <sup> See **[Raspberry Pi: Operating System](notion://www.notion.so/src/RAD_JKW_DOCS.md)** </sup>
+>     1. Installation
+>     2. Terminal Commands
+>     3. Python (PIP)
+>     4. Virtual Environments
+>     5. Install Visual Studio Code ***(VS-Code)***
+> 
+> ### Visual Studio Code
+> 
+> - ***Python***
+>     1. Python
+>     2. Pylance
+> - ***Markdown***
+>     1. Markdown All In One
+> 
+> ### Raspberrry Pi
+> 
+> - **Setup**_
+> 1. Accesories
+> 2. Operating System
+> 3. Flash OS to SD Card
+> 4. Initial Configuration
+> 5. Update OS
+> 6. Update Firmware
+> -**Configuration**_
+> 7. Networking
+> 8. SSH
+> 9. VNC
+> 10. Remote Desktop
+> 11. 
+> 
+> ***[View Jared's Project Guide](notion://www.notion.so/src/RAD_JKW_DOCS.md)***
+> 
+
+---
+
+## References
+
+Quick Links
+
+### Markdown
+
+- **Personal**
+    - [First Attempt](notion://www.notion.so/src/FirstAttempt.md)
+- **Visual Studio Code**
+    - [Readme Example](notion://www.notion.so/src/vscode-Readme.md)
+    - [Roadmap Example](notion://www.notion.so/src/vscode-Roadmap.md)
+
+### Python
+
+### Linux
