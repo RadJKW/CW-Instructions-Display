@@ -58,12 +58,12 @@ class _DashboardState extends State<Dashboard> {
           ),
         ),
       ),
-      bottomBar: const InfoBar(
-        title: Text('Tip:'),
-        content: Text(
-          'You can click on any icon to copy its name to the clipboard!',
-        ),
-      ),
+      // bottomBar: const InfoBar(
+      //   title: Text('Tip:'),
+      //   content: Text(
+      //     'You can click on any icon to copy its name to the clipboard!',
+      //   ),
+      // ),
       content: GridView.extent(
         maxCrossAxisExtent: 150,
         mainAxisSpacing: 10,

@@ -6,7 +6,7 @@ import 'package:flutter_acrylic/flutter_acrylic.dart' as flutter_acrylic;
 enum NavigationIndicators { end }
 
 class AppTheme extends ChangeNotifier {
-  AccentColor _color = systemAccentColor;
+  AccentColor _color = Colors.blue;
   AccentColor get color => _color;
   set color(AccentColor color) {
     _color = color;
