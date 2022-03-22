@@ -1,31 +1,6 @@
-import 'package:clipboard/clipboard.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 
-void showCopiedSnackbar(BuildContext context, String copiedText) {
-  showSnackbar(
-    context,
-    Snackbar(
-      content: RichText(
-        text: TextSpan(
-          text: 'Copied ',
-          style: const TextStyle(color: Colors.white),
-          children: [
-            TextSpan(
-              text: copiedText,
-              style: TextStyle(
-                color: Colors.blue.resolveFromReverseBrightness(
-                  FluentTheme.of(context).brightness,
-                ),
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
-        ),
-      ),
-      extended: true,
-    ),
-  );
-}
+import 'settings.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -35,109 +10,133 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  String filterText = '';
+  Color? color;
+  double scale = 1.0;
 
-  @override
-  Widget build(BuildContext context) {
-    assert(debugCheckHasFluentTheme(context));
-    final padding = PageHeader.horizontalPadding(context);
-    return ScaffoldPage(
-      header: PageHeader(
-        title: const Text('Home.dart Screen'),
-        commandBar: SizedBox(
-          width: 240.0,
-          child: Tooltip(
-            message: 'Filter by name',
-            child: TextBox(
-              suffix: const Icon(FluentIcons.search),
-              placeholder: 'Type to filter icons by name (e.g "logo")',
-              onChanged: (value) => setState(() {
-                filterText = value;
-              }),
-            ),
-          ),
-        ),
-      ),
-      // bottomBar: const InfoBar(
-      //   title: Text('Tip:'),
-      //   content: Text(
-      //     'You can click on any icon to copy its name to the clipboard!',
-      //   ),
-      // ),
-      content: GridView.extent(
-        maxCrossAxisExtent: 150,
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 10,
-        padding: EdgeInsets.only(
-          top: kPageDefaultVerticalPadding,
-          right: padding,
-          left: padding,
-        ),
-        children: FluentIcons.allIcons.entries
-            .where((icon) =>
-                filterText.isEmpty ||
-                // Remove '_'
-                icon.key
-                    .replaceAll('_', '')
-                    // toLowerCase
-                    .toLowerCase()
-                    .contains(filterText
-                        .toLowerCase()
-                        // Remove spaces
-                        .replaceAll(' ', '')))
-            .map((e) {
-          return HoverButton(
-            onPressed: () async {
-              final copyText = 'FluentIcons.${e.key}';
-              await FlutterClipboard.copy(copyText);
-              showCopiedSnackbar(context, copyText);
-            },
-            cursor: SystemMouseCursors.copy,
-            builder: (context, states) {
-              return FocusBorder(
-                focused: states.isFocused,
-                child: Tooltip(
-                  useMousePosition: false,
-                  message:
-                      '\nFluentIcons.${e.key}\n(tap to copy to clipboard)\n',
-                  child: RepaintBoundary(
-                    child: AnimatedContainer(
-                      duration: FluentTheme.of(context).fasterAnimationDuration,
-                      decoration: BoxDecoration(
-                        color: ButtonThemeData.uncheckedInputColor(
-                          FluentTheme.of(context),
-                          states,
-                        ),
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      padding: const EdgeInsets.all(6.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(e.value, size: 40),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Text(
-                              snakeCasetoSentenceCase(e.key),
-                              textAlign: TextAlign.center,
-                              overflow: TextOverflow.fade,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            },
-          );
-        }).toList(),
+  Widget buildColorBox(Color color) {
+    const double boxSize = 25.0;
+    return Container(
+      height: boxSize,
+      width: boxSize,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(4.0),
       ),
     );
   }
 
-  static String snakeCasetoSentenceCase(String original) {
-    return '${original[0].toUpperCase()}${original.substring(1)}'
-        .replaceAll(RegExp(r'(_|-)+'), ' ');
+  @override
+  Widget build(BuildContext context) {
+    assert(debugCheckHasFluentTheme(context));
+    Typography typography = FluentTheme.of(context).typography;
+    color ??= typography.display!.color;
+    typography = typography.apply(displayColor: color!);
+    const Widget spacer = SizedBox(height: 4.0);
+    return ScaffoldPage.withPadding(
+      header: PageHeader(
+        title: const Text('Typography showcase'),
+        commandBar: SizedBox(
+          width: 180.0,
+          child: Tooltip(
+            message: 'Pick a text color',
+            child: Combobox<Color>(
+              placeholder: const Text('Text Color'),
+              onChanged: (c) => setState(() => color = c),
+              value: color,
+              items: [
+                ComboboxItem(
+                  child: Row(children: [
+                    buildColorBox(Colors.white),
+                    const SizedBox(width: 10.0),
+                    const Text('White'),
+                  ]),
+                  value: Colors.white,
+                ),
+                ComboboxItem(
+                  child: Row(children: [
+                    buildColorBox(Colors.black),
+                    const SizedBox(width: 10.0),
+                    const Text('Black'),
+                  ]),
+                  value: Colors.black,
+                ),
+                ...List.generate(Colors.accentColors.length, (index) {
+                  final color = Colors.accentColors[index];
+                  return ComboboxItem(
+                    child: Row(children: [
+                      buildColorBox(color),
+                      const SizedBox(width: 10.0),
+                      Text(accentColorNames[index + 1]),
+                    ]),
+                    value: color,
+                  );
+                }),
+              ],
+            ),
+          ),
+        ),
+      ),
+      content: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Divider(
+                style: DividerThemeData(horizontalMargin: EdgeInsets.zero),
+              ),
+              Expanded(
+                child: ListView(
+                  children: [
+                    Text('Display',
+                        style:
+                            typography.display?.apply(fontSizeFactor: scale)),
+                    spacer,
+                    Text('Title Large',
+                        style: typography.titleLarge
+                            ?.apply(fontSizeFactor: scale)),
+                    spacer,
+                    Text('Title',
+                        style: typography.title?.apply(fontSizeFactor: scale)),
+                    spacer,
+                    Text('Subtitle',
+                        style:
+                            typography.subtitle?.apply(fontSizeFactor: scale)),
+                    spacer,
+                    Text('Body Large',
+                        style:
+                            typography.bodyLarge?.apply(fontSizeFactor: scale)),
+                    spacer,
+                    Text('Body Strong',
+                        style: typography.bodyStrong
+                            ?.apply(fontSizeFactor: scale)),
+                    spacer,
+                    Text('Body',
+                        style: typography.body?.apply(fontSizeFactor: scale)),
+                    spacer,
+                    Text('Caption',
+                        style:
+                            typography.caption?.apply(fontSizeFactor: scale)),
+                    spacer,
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        Semantics(
+          label: 'Scale',
+          child: Slider(
+            vertical: true,
+            value: scale,
+            onChanged: (v) => setState(() => scale = v),
+            label: scale.toStringAsFixed(2),
+            max: 2,
+            min: 0.5,
+            // style: SliderThemeData(useThumbBall: false),
+          ),
+        ),
+      ]),
+    );
   }
 }

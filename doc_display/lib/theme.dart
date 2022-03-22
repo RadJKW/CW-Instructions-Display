@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:system_theme/system_theme.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart' as flutter_acrylic;
 
-enum NavigationIndicators { end }
+enum NavigationIndicators { sticky, end }
 
 class AppTheme extends ChangeNotifier {
   AccentColor _color = Colors.blue;
