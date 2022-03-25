@@ -37,19 +37,19 @@ void main() async {
 
   setPathUrlStrategy();
 
-  if (isDesktop) {
-    // await flutter_acrylic.Window.initialize();
-    await WindowManager.instance.ensureInitialized();
-    windowManager.waitUntilReadyToShow().then((_) async {
-      await windowManager.setFullScreen(true);
-      // await windowManager.setSize(const Size(1280, 720));
-      // await windowManager.setTitleBarStyle('hidden');
-      await windowManager.setMinimumSize(const Size(1280, 720));
-      await windowManager.center();
-      await windowManager.show();
-      await windowManager.setSkipTaskbar(false);
-    });
-  }
+  // if (isDesktop) {
+  //   // await flutter_acrylic.Window.initialize();
+  //   await WindowManager.instance.ensureInitialized();
+  //   windowManager.waitUntilReadyToShow().then((_) async {
+  //     // await windowManager.setFullScreen(true);
+  //     await windowManager.setSize(const Size(800, 800));
+  //     // await windowManager.setTitleBarStyle('hidden');
+  //     await windowManager.setMinimumSize(const Size(800, 800));
+  //     await windowManager.center();
+  //     await windowManager.show();
+  //     await windowManager.setSkipTaskbar(false);
+  //   });
+  // }
 
   runApp(const MyApp());
 }
