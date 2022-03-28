@@ -1,19 +1,15 @@
-import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:flutter_acrylic/flutter_acrylic.dart' as flutter_acrylic;
-import 'package:system_theme/system_theme.dart';
 
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/link.dart';
-import 'package:url_strategy/url_strategy.dart';
 
 import 'screens/browse.dart';
 import 'screens/dashboard.dart';
 import 'screens/settings.dart';
 import 'screens/pdfview.dart';
 import 'screens/vidplayer.dart';
+import 'screens/mqtt.dart';
 import 'theme.dart';
 
 const String appTitle = 'Coil Winder Instructions Display';
@@ -153,6 +149,9 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
         items: [
           // It doesn't look good when resizing from compact to open
           // PaneItemHeader(header: Text('User Interaction')),
+
+          // TODO: Instead of populating these manually,
+          //  use a list or map type thing.
           PaneItem(
             // index 0 - dashboard.dart
             icon: const Icon(FluentIcons.view_dashboard),
@@ -161,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
           PaneItem(
             // index 1 - browse.dart
             icon: const Icon(FluentIcons.folder_list),
-            title: const Text('View All'),
+            title: const Text('Browse'),
           ),
           PaneItem(
             // index 2
@@ -171,7 +170,7 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
           PaneItem(
             // index 3
             icon: const Icon(FluentIcons.photo_video_media),
-            title: const Text('Video Player'),
+            title: const Text('MQTT Test'),
           ),
         ],
         autoSuggestBox: AutoSuggestBox(
@@ -188,10 +187,16 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
         ],
       ),
       content: NavigationBody(index: index, children: [
+        // 0
         const Dashboard(),
-        const BrowsePage(),
-        const PdfPage(),
-        const VidplayerPage(),
+        // 1
+        const BrowsePage(), // 1
+        // 2
+        const PdfPage(), // 2
+        // 3
+        const MqttView(),
+        //const VidplayerPage(),
+        // 4
         SettingsPage(controller: settingsController),
       ]),
     );
