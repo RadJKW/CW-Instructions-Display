@@ -81,7 +81,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with WindowListener {
   bool value = false;
 
-  int index = 0;
+  int index = 3;
 
   final settingsController = ScrollController();
 

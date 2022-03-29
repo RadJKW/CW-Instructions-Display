@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +35,7 @@ class _MqttViewState extends State<MqttView> {
 
   @override
   void dispose() {
-    /* 
+    /*  
       insert code here
     */
     super.dispose();
@@ -51,22 +53,124 @@ class _MqttViewState extends State<MqttView> {
           content: const Text('Disabled'),
         ),
       ),
+      children: const [
+        MessageViewer(
+          mqttTopic: 'CoilWinder/pi/cw88',
+          jsonObject: 'coilnum',
+          jsonValue: '0000000000000',
+        ),
+        Divider(
+          direction: Axis.horizontal,
+          style: DividerThemeData(
+            verticalMargin: EdgeInsets.all(10),
+            horizontalMargin: EdgeInsets.all(10),
+            thickness: 3,
+          ),
+        ),
+        MessageViewer()
+      ],
+    );
+  }
+}
+
+class MessageViewer extends StatefulWidget {
+  final String mqttTopic;
+  final String jsonObject;
+  final String jsonValue;
+
+  const MessageViewer({
+    Key? key,
+    this.mqttTopic = 'Topic',
+    this.jsonObject = 'Object',
+    this.jsonValue = 'Value',
+  }) : super(key: key);
+
+  @override
+  State<MessageViewer> createState() => _MessageViewerState();
+}
+
+class _MessageViewerState extends State<MessageViewer> {
+  static const parsedJson = <String>[
+    'item1',
+    'item2',
+    'item3',
+    'item4',
+  ];
+  String? comboBoxValue;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Typography typography = FluentTheme.of(context).typography;
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.all(15),
-                child: TextBox(
-                  header: 'topic - json.object.title',
-                  placeholder: 'MQTT info here',
-                  readOnly: true,
-                ),
+        Expanded(
+            flex: 2,
+            child: InfoLabel(
+              label: 'Objects',
+              child: Combobox<String>(
+                placeholder: const Text('Choose Item'),
+                isExpanded: true,
+                items:
+                    // parsedJson will be the list of app objects within the jsonString
+                    parsedJson
+                        .map((e) => ComboboxItem<String>(
+                              value: e,
+                              child: Text(e),
+                            ))
+                        .toList(),
+                value: comboBoxValue,
+                onChanged: (value) {
+                  if (value != null) {
+                    setState(() => comboBoxValue = value);
+                    // setState will update the textBox 'placeholder text' with json value
+                  }
+                },
               ),
-            ),
-            SizedBox(height: 30),
-          ],
+            )),
+        const SizedBox(
+          width: 10,
+        ),
+        const Divider(
+          direction: Axis.vertical,
+          size: 50.0,
+          style: DividerThemeData(
+            verticalMargin: EdgeInsets.all(10),
+            horizontalMargin: EdgeInsets.all(10),
+            thickness: 2.0,
+          ),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          flex: 5,
+          child: TextBox(
+            outsideSuffix: Padding(
+                padding: const EdgeInsetsDirectional.only(
+                  start: 2,
+                ),
+                child: Button(
+                  child: const Text('done'),
+                  onPressed: () {},
+                )),
+            header: widget.mqttTopic,
+            // headerStyle: typography.subtitle?.apply(),
+            placeholder: (widget.jsonObject + ' = ' + widget.jsonValue),
+            readOnly: true,
+            // style: typography.title?.apply(),
+          ),
         ),
       ],
     );
