@@ -83,7 +83,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with WindowListener {
   bool value = false;
 
-  int index = 3;
+  int index = 4;
 
   final settingsController = ScrollController();
 
@@ -149,30 +149,32 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
           }
         }(),
         items: [
-          // It doesn't look good when resizing from compact to open
-          // PaneItemHeader(header: Text('User Interaction')),
-
           // TODO: Instead of populating these manually,
           //  use a list or map type thing.
           PaneItem(
             // index 0 - dashboard.dart
             icon: const Icon(FluentIcons.view_dashboard),
-            title: const Text('Dashboard'),
+            title: const Text('    Dashboard'),
           ),
           PaneItem(
             // index 1 - browse.dart
             icon: const Icon(FluentIcons.folder_list),
-            title: const Text('Browse'),
+            title: const Text('    Browse'),
           ),
           PaneItem(
             // index 2
             icon: const Icon(FluentIcons.pdf),
-            title: const Text('PDF Viewer'),
+            title: const Text('    PDF Viewer'),
           ),
           PaneItem(
             // index 3
             icon: const Icon(FluentIcons.photo_video_media),
-            title: const Text('MQTT Test'),
+            title: const Text('    Videos'),
+          ),
+          PaneItem(
+            // index 4
+            icon: const Icon(FluentIcons.photo_video_media),
+            title: const Text('    MQTT Test'),
           ),
         ],
         autoSuggestBox: AutoSuggestBox(
@@ -189,16 +191,16 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
         ],
       ),
       content: NavigationBody(index: index, children: [
-        // 0
-        const Dashboard(),
-        // 1
+        const Dashboard(), // 0
+
         const BrowsePage(), // 1
-        // 2
+
         const PdfPage(), // 2
-        // 3
-        const MqttView(),
-        //const VidplayerPage(),
-        // 4
+
+        const VidplayerPage(), // 3
+
+        const MqttView(), // 4
+
         SettingsPage(controller: settingsController),
       ]),
     );
