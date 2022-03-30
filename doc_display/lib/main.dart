@@ -9,9 +9,9 @@ import 'package:provider/provider.dart';
 import 'screens/browse.dart';
 import 'screens/dashboard.dart';
 import 'screens/settings.dart';
-import 'screens/pdfview.dart';
-import 'screens/vidplayer.dart';
-import 'screens/mqtt.dart';
+import 'screens/pdf_view.dart';
+import 'screens/vid_player.dart';
+import 'screens/mqtt_view.dart';
 import 'theme.dart';
 
 const String appTitle = 'Coil Winder Instructions Display';

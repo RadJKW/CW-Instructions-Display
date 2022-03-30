@@ -5,7 +5,9 @@ import 'dart:ffi';
 import 'dart:io';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:provider/provider.dart';
-import 'package:doc_display/widgets/messageViewCard.dart';
+import 'package:doc_display/widgets/msg_view_card.dart';
+
+import '../mqtt/mqtt_manager.dart';
 
 // TODO: import required packages
 //    mqtt_client
@@ -23,6 +25,8 @@ class MqttView extends StatefulWidget {
 
 class _MqttViewState extends State<MqttView> {
   bool mqttStatus = false;
+
+  set mqttManager(MQTTManager mqttManager) {}
 
   @override
   void initState() {
@@ -44,7 +48,7 @@ class _MqttViewState extends State<MqttView> {
   Widget build(BuildContext context) {
     return ScaffoldPage.scrollable(
       header: PageHeader(
-        title: const Text('Inputs showcase'),
+        title: const Text('MQTT BROKER ADDRESS'),
         // TODO: Change the command bar toggle switch to mqtt status indicator
         commandBar: ToggleSwitch(
           checked: mqttStatus,
