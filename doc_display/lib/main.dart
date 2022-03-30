@@ -35,8 +35,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => AppTheme(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => AppTheme(),
+        ),
+        // Provider(AppStateService.instance
+        //     create: (_) => MQTTManager(
+        //         host: host, topic: topic, identifier: identifier, state: state))
+      ],
       builder: (context, _) {
         final appTheme = context.watch<AppTheme>();
         return FluentApp(
