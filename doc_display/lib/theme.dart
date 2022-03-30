@@ -1,6 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
-import 'package:system_theme/system_theme.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart' as flutter_acrylic;
 
 enum NavigationIndicators { sticky, end }
@@ -55,13 +54,8 @@ AccentColor get systemAccentColor {
       defaultTargetPlatform == TargetPlatform.android ||
       kIsWeb) {
     return AccentColor('normal', {
-      'darkest': SystemTheme.accentInstance.darkest,
-      'darker': SystemTheme.accentInstance.darker,
-      'dark': SystemTheme.accentInstance.dark,
-      'normal': SystemTheme.accentInstance.accent,
-      'light': SystemTheme.accentInstance.light,
-      'lighter': SystemTheme.accentInstance.lighter,
-      'lightest': SystemTheme.accentInstance.lightest,
+      'normal': Colors.blue,
+      'dark': Colors.red,
     });
   }
   return Colors.blue;

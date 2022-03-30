@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:window_manager/window_manager.dart';
 
 import 'package:fluent_ui/fluent_ui.dart';
