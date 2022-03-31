@@ -1,13 +1,16 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, todo
 
 import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import 'package:doc_display/widgets/msg_view_card.dart';
-
-import '../mqtt/mqtt_manager.dart';
+import 'package:doc_display/common/theme.dart';
+import 'package:doc_display/screens/mqtt_view.dart';
+import 'package:doc_display/state/mqtt_state.dart';
+import 'package:doc_display/models/mqtt.dart';
 
 // TODO: import required packages
 //    mqtt_client
@@ -24,9 +27,8 @@ class MqttView extends StatefulWidget {
 }
 
 class _MqttViewState extends State<MqttView> {
-  bool mqttStatus = false;
-
-  set mqttManager(MQTTManager mqttManager) {}
+  late MqttAppState currentState;
+  late MqttManager mqttManager;
 
   @override
   void initState() {
@@ -46,32 +48,64 @@ class _MqttViewState extends State<MqttView> {
 
   @override
   Widget build(BuildContext context) {
-    return ScaffoldPage.scrollable(
-      header: PageHeader(
-        title: const Text('MQTT BROKER ADDRESS'),
-        // TODO: Change the command bar toggle switch to mqtt status indicator
-        commandBar: ToggleSwitch(
-          checked: mqttStatus,
-          onChanged: (v) => setState(() => mqttStatus = v),
-          content: const Text('Disabled'),
-        ),
-      ),
-      children: const [
-        MessageViewer(
-          mqttTopic: 'CoilWinder/pi/cw88',
-          jsonObject: 'coilnum',
-          jsonValue: '0000000000000',
-        ),
-        Divider(
-          direction: Axis.horizontal,
-          style: DividerThemeData(
-            // verticalMargin: EdgeInsets.all(10),
-            horizontalMargin: EdgeInsets.fromLTRB(0, 30, 0, 15),
-            thickness: 3,
+    if (kDebugMode) {
+      print('MqttView build()');
+    }
+    return Consumer<MqttAppState>(builder: (context, state, child) {
+      if (kDebugMode) {
+        print('textbox rebuild');
+      }
+      currentState = state;
+      _startMqttClient();
+      return ScaffoldPage.scrollable(
+          header: PageHeader(
+            title: const Text('MQTT BROKER ADDRESS'),
+            // TODO: Change the command bar toggle switch to mqtt status indicator
+            commandBar: ToggleSwitch(
+              checked: state.isConnected,
+              onChanged: (bool value) {},
+              content: const Text('Disabled'),
+            ),
           ),
-        ),
-        MessageViewer()
-      ],
+          children: [
+            const MessageViewer(),
+            const Divider(
+              direction: Axis.horizontal,
+              style: DividerThemeData(
+                // verticalMargin: EdgeInsets.all(10),
+                horizontalMargin: EdgeInsets.fromLTRB(0, 30, 0, 15),
+                thickness: 3,
+              ),
+            ),
+            TextBox(
+              header: 'Mqtt Payload',
+              maxLines: null,
+              readOnly: true,
+              suffixMode: OverlayVisibilityMode.always,
+              minHeight: 100,
+              // suffix: _clearController.text.isEmpty
+              //     ? null
+              //     : IconButton(
+              //         icon: const Icon(FluentIcons.chrome_close),
+              //         onPressed: () {
+              //           _clearController.clear();
+              //         },
+              //       ),
+              placeholder: state.getReceivedText,
+            ),
+          ]);
+    });
+  }
+
+  void _startMqttClient() {
+    mqttManager = MqttManager(
+      host: '192.168.0.30',
+      topic: 'pi/cw88/#',
+      identifier: 'radpi-cw88',
+      state: currentState,
     );
+    //TODO: uncommenting the following lines caused mqtt infinite 'print'/'debug' loop.
+    // mqttManager.initializeMqttClient();
+    // mqttManager.connect();
   }
 }

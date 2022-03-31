@@ -1,18 +1,19 @@
 // ignore_for_file: unused_import
 
 import 'package:window_manager/window_manager.dart';
-
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 
-import 'screens/browse.dart';
-import 'screens/dashboard.dart';
-import 'screens/settings.dart';
-import 'screens/pdf_view.dart';
-import 'screens/vid_player.dart';
-import 'screens/mqtt_view.dart';
-import 'theme.dart';
+import 'package:doc_display/screens/browse.dart';
+import 'package:doc_display/screens/dashboard.dart';
+import 'package:doc_display/screens/settings.dart';
+import 'package:doc_display/screens/pdf_view.dart';
+import 'package:doc_display/screens/vid_player.dart';
+import 'package:doc_display/screens/mqtt_view.dart';
+import 'package:doc_display/common/theme.dart';
+import 'package:doc_display/models/mqtt.dart';
+import 'package:doc_display/state/mqtt_state.dart';
 
 const String appTitle = 'Coil Winder Instructions Display';
 bool get isDesktop {
@@ -37,12 +38,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (_) => AppTheme(),
-        ),
-        // Provider(AppStateService.instance
-        //     create: (_) => MQTTManager(
-        //         host: host, topic: topic, identifier: identifier, state: state))
+        ChangeNotifierProvider(create: (_) => AppTheme()),
+        ChangeNotifierProvider(create: (_) => MqttAppState()),
       ],
       builder: (context, _) {
         final appTheme = context.watch<AppTheme>();
@@ -180,7 +177,7 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
           ),
           PaneItem(
             // index 4
-            icon: const Icon(FluentIcons.photo_video_media),
+            icon: const Icon(FluentIcons.network_tower),
             title: const Text('    MQTT Test'),
           ),
         ],
