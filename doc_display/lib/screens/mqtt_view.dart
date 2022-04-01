@@ -27,74 +27,56 @@ class MqttView extends StatefulWidget {
 }
 
 class _MqttViewState extends State<MqttView> {
-  late MqttAppState currentState;
+  late MqttAppState _mqttAppState;
   late MqttManager mqttManager;
 
   @override
   void initState() {
     super.initState();
-    /* 
-      insert code here
-    */
+    // _mqttAppState = Provider.of<MqttAppState>(context);
+    // _startMqttClient();
   }
 
   @override
   void dispose() {
-    /*  
-      insert code here
-    */
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    _mqttAppState = context.watch<MqttAppState>();
     if (kDebugMode) {
       print('MqttView build()');
     }
-    return Consumer<MqttAppState>(builder: (context, state, child) {
-      if (kDebugMode) {
-        print('textbox rebuild');
-      }
-      currentState = state;
-      _startMqttClient();
-      return ScaffoldPage.scrollable(
-          header: PageHeader(
-            title: const Text('MQTT BROKER ADDRESS'),
-            // TODO: Change the command bar toggle switch to mqtt status indicator
-            commandBar: ToggleSwitch(
-              checked: state.isConnected,
-              onChanged: (bool value) {},
-              content: const Text('Disabled'),
+    return ScaffoldPage.scrollable(
+        header: PageHeader(
+          title: const Text('MQTT BROKER ADDRESS'),
+          // TODO: Change the command bar toggle switch to mqtt status indicator
+          commandBar: ToggleSwitch(
+            checked: _mqttAppState.isConnected,
+            onChanged: (bool value) {},
+            content: const Text('Disabled'),
+          ),
+        ),
+        children: [
+          MessageViewer(),
+          const Divider(
+            direction: Axis.horizontal,
+            style: DividerThemeData(
+              // verticalMargin: EdgeInsets.all(10),
+              horizontalMargin: EdgeInsets.fromLTRB(0, 30, 0, 15),
+              thickness: 3,
             ),
           ),
-          children: [
-            const MessageViewer(),
-            const Divider(
-              direction: Axis.horizontal,
-              style: DividerThemeData(
-                // verticalMargin: EdgeInsets.all(10),
-                horizontalMargin: EdgeInsets.fromLTRB(0, 30, 0, 15),
-                thickness: 3,
-              ),
-            ),
-            TextBox(
-              header: 'Mqtt Payload',
-              maxLines: null,
-              readOnly: true,
-              suffixMode: OverlayVisibilityMode.always,
-              minHeight: 100,
-              // suffix: _clearController.text.isEmpty
-              //     ? null
-              //     : IconButton(
-              //         icon: const Icon(FluentIcons.chrome_close),
-              //         onPressed: () {
-              //           _clearController.clear();
-              //         },
-              //       ),
-              placeholder: state.getReceivedText,
-            ),
-          ]);
-    });
+          TextBox(
+            header: 'Mqtt Payload',
+            maxLines: null,
+            readOnly: true,
+            suffixMode: OverlayVisibilityMode.always,
+            minHeight: 100,
+            placeholder: _mqttAppState.getCounterText,
+          ),
+        ]);
   }
 
   void _startMqttClient() {
@@ -102,10 +84,10 @@ class _MqttViewState extends State<MqttView> {
       host: '192.168.0.30',
       topic: 'pi/cw88/#',
       identifier: 'radpi-cw88',
-      state: currentState,
+      state: _mqttAppState,
     );
     //TODO: uncommenting the following lines caused mqtt infinite 'print'/'debug' loop.
-    // mqttManager.initializeMqttClient();
+    mqttManager.initializeMqttClient();
     // mqttManager.connect();
   }
 }

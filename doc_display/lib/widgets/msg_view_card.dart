@@ -5,73 +5,52 @@ import 'dart:ffi';
 import 'dart:io';
 import 'package:doc_display/state/mqtt_state.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:mqtt_client/mqtt_client.dart';
 import 'package:provider/provider.dart';
 
-class MessageViewer extends StatefulWidget {
-  final String mqttTopic;
-  final String jsonObject;
-  final String jsonValue;
+class MessageViewer extends StatelessWidget {
+  const MessageViewer({Key? key}) : super(key: key);
+  // create a counter integer that can be incremented
+  final String placeholder = 'count = ';
 
-  const MessageViewer({
-    Key? key,
-    this.mqttTopic = 'Topic',
-    this.jsonObject = 'Object',
-    this.jsonValue = 'Value',
-  }) : super(key: key);
-
-  @override
-  State<MessageViewer> createState() => _MessageViewerState();
-}
-
-class _MessageViewerState extends State<MessageViewer> {
   static const parsedJson = <String>[
     'item1',
     'item2',
     'item3',
     'item4',
   ];
-  String? comboBoxValue;
-  // create a text controller that will be used by the TextBox widget to get the text inside the widget
-  // once the texbox button is pressed, it should update the mqttAppState with the new text
 
-  final TextEditingController _textController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  // final TextEditingController _textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final MqttAppState _mqttAppState = context.watch<MqttAppState>();
     Typography typography = FluentTheme.of(context).typography;
-    final mqttAppState = Provider.of<MqttAppState>(context, listen: false);
+
+    var bold = typography.bodyStrong?.apply();
+    var subtitle = typography.subtitle?.apply();
+    var title = typography.title?.apply();
+    var body = typography.body?.apply();
+    var caption = typography.caption?.apply();
+    // mqttAppState = Provider.of<MqttAppState>(context, listen: false);
 
     return Card(
       child: TextBox(
         readOnly: false,
-        placeholder: '',
-        controller: _textController,
+        placeholder: placeholder + _mqttAppState.getCounterText,
         outsidePrefix: Padding(
             padding: const EdgeInsetsDirectional.only(end: 20),
             child: Text(
-              widget.mqttTopic + '      : ',
-              style: typography.bodyStrong?.apply(),
+              //if message one is null, then show and empty string
+              'TOPIC    :',
+              style: body,
             )),
         outsideSuffix: Padding(
           padding: const EdgeInsetsDirectional.only(start: 20),
           child: IconButton(
             icon: const Icon(FluentIcons.sync),
-            onPressed: // update the mqttAppState with the new text from the textbox and clear the textbox
-                () {
-
-              mqttAppState.setReceivedText(_textController.text);
-              _textController.clear();
+            onPressed: () {
+              _mqttAppState.incrementCounter();
             },
           ),
           // ],
