@@ -10,10 +10,11 @@ enum MqttAppConnectionState {
 class MqttAppState with ChangeNotifier {
   MqttAppConnectionState _appState = MqttAppConnectionState.disconnected;
   String _receivedText = '';
-  int _counter = 0;
+  int count = 0;
 
   void setReceivedText(String text) {
     _receivedText = text;
+    count++;
     notifyListeners();
   }
 
@@ -22,20 +23,9 @@ class MqttAppState with ChangeNotifier {
     notifyListeners();
   }
 
-  void incrementCounter() {
-    _counter++;
-    notifyListeners();
-  }
-
 // create a getter that returns _counter.toString() and sets _receivedText to the value of the getter
-  String get getCounterText => _counter.toString();
-
-  String get getReceivedText => _receivedText;
-  MqttAppConnectionState get getAppConnectionState => _appState;
-
-  // create a getter to check if the app is connected
-  // return true if the app is connected
-  // return false if the app is not connected
-
+  String get getReceivedText => _receivedText + ': $count';
+  // createa a String Getter that returns a Text widget with 'connected' if _appState is connected and 'disconnected' if _appState is disconnected
   bool get isConnected => _appState == MqttAppConnectionState.connected;
+  MqttAppConnectionState get getAppConnectionState => _appState;
 }

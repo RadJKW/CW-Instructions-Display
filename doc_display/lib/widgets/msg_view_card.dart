@@ -37,7 +37,7 @@ class MessageViewer extends StatelessWidget {
     return Card(
       child: TextBox(
         readOnly: false,
-        placeholder: placeholder + _mqttAppState.getCounterText,
+        placeholder: 'provider test ----> press button ----> ',
         outsidePrefix: Padding(
             padding: const EdgeInsetsDirectional.only(end: 20),
             child: Text(
@@ -50,7 +50,7 @@ class MessageViewer extends StatelessWidget {
           child: IconButton(
             icon: const Icon(FluentIcons.sync),
             onPressed: () {
-              _mqttAppState.incrementCounter();
+              _mqttAppState.setReceivedText('Test Successfull');
             },
           ),
           // ],
@@ -59,7 +59,7 @@ class MessageViewer extends StatelessWidget {
     );
   }
 
-  _getItemsFromList(List<String> list) {
+  List _getItemsFromList(List<String> list) {
     var comboBoxList = list
         .map((e) => ComboboxItem<String>(
               value: e,
@@ -72,7 +72,6 @@ class MessageViewer extends StatelessWidget {
 }
 
 // Removed Widgets
-
 // Row(
 // crossAxisAlignment: CrossAxisAlignment.center,
 // mainAxisAlignment: MainAxisAlignment.center,

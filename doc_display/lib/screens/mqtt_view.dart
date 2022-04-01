@@ -44,50 +44,95 @@ class _MqttViewState extends State<MqttView> {
 
   @override
   Widget build(BuildContext context) {
-    _mqttAppState = context.watch<MqttAppState>();
+    final MqttAppState appState = context.watch<MqttAppState>();
+    _mqttAppState = appState;
+    bool isChecked = false;
     if (kDebugMode) {
       print('MqttView build()');
     }
+
     return ScaffoldPage.scrollable(
         header: PageHeader(
           title: const Text('MQTT BROKER ADDRESS'),
           // TODO: Change the command bar toggle switch to mqtt status indicator
           commandBar: ToggleSwitch(
             checked: _mqttAppState.isConnected,
-            onChanged: (bool value) {},
-            content: const Text('Disabled'),
+            onChanged: (bool value) {
+              //
+            },
+            content: Text(_mqttAppState.getAppConnectionState.toString()),
           ),
         ),
-        children: [
-          MessageViewer(),
-          const Divider(
-            direction: Axis.horizontal,
-            style: DividerThemeData(
-              // verticalMargin: EdgeInsets.all(10),
-              horizontalMargin: EdgeInsets.fromLTRB(0, 30, 0, 15),
-              thickness: 3,
-            ),
+        children: <Widget>[
+          _buildMessageViewer(),
+          _buildDivider(),
+          _buildScrollableTextBox(
+            title: 'Mqtt Payload',
+            text: _mqttAppState.getReceivedText,
           ),
-          TextBox(
-            header: 'Mqtt Payload',
-            maxLines: null,
-            readOnly: true,
-            suffixMode: OverlayVisibilityMode.always,
-            minHeight: 100,
-            placeholder: _mqttAppState.getCounterText,
-          ),
+          _buildDivider(),
+          _buildConnectButtonFrom(_mqttAppState.getAppConnectionState),
         ]);
+  }
+
+  Widget _buildMessageViewer() {
+    return const MessageViewer();
+  }
+
+  Widget _buildDivider() {
+    return const Divider(
+      direction: Axis.horizontal,
+      style: DividerThemeData(
+        // verticalMargin: EdgeInsets.all(10),
+        horizontalMargin: EdgeInsets.fromLTRB(0, 30, 0, 15),
+        thickness: 3,
+      ),
+    );
+  }
+
+  Widget _buildScrollableTextBox({String? text, String? title}) {
+    return TextBox(
+      header: title ?? '',
+      maxLines: null,
+      readOnly: true,
+      suffixMode: OverlayVisibilityMode.always,
+      minHeight: 100,
+      placeholder: text ?? 'hello world',
+    );
+  }
+
+  // build a widget '_buildConnectButtonFrom (MqttAppConnectionState)
+  // the widget will return a button with the text 'Connect' when MqttAppConnectionState is 'disconnected' 
+  // and 'Disconnect' when MqttAppConnectionState is 'connected'
+
+  Widget _buildConnectButtonFrom(MqttAppConnectionState state) {
+    return Button(
+      child: Text( state == MqttAppConnectionState.disconnected
+          ? 'Connect'
+          : 'Disconnect'),
+      onPressed: () {
+        if (state == MqttAppConnectionState.disconnected) {
+          _startMqttClient();
+        } else {
+          _stopMqttClient();
+        }
+      },
+    );
   }
 
   void _startMqttClient() {
     mqttManager = MqttManager(
-      host: '192.168.0.30',
+      host: '192.168.0.17',
       topic: 'pi/cw88/#',
       identifier: 'radpi-cw88',
       state: _mqttAppState,
     );
     //TODO: uncommenting the following lines caused mqtt infinite 'print'/'debug' loop.
     mqttManager.initializeMqttClient();
-    // mqttManager.connect();
+    mqttManager.connect();
+  }
+
+  void _stopMqttClient() {
+    mqttManager.disconnect();
   }
 }
