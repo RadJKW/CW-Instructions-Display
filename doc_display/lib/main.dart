@@ -5,12 +5,12 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 
-import 'package:doc_display/screens/browse.dart';
-import 'package:doc_display/screens/dashboard.dart';
-import 'package:doc_display/screens/settings.dart';
-import 'package:doc_display/screens/pdf_view.dart';
-import 'package:doc_display/screens/vid_player.dart';
-import 'package:doc_display/screens/mqtt_view.dart';
+import 'package:doc_display/views/browse.dart';
+import 'package:doc_display/views/dashboard.dart';
+import 'package:doc_display/views/settings.dart';
+import 'package:doc_display/views/pdf_view.dart';
+import 'package:doc_display/views/vid_player.dart';
+import 'package:doc_display/views/mqtt_view.dart';
 import 'package:doc_display/common/theme.dart';
 import 'package:doc_display/models/mqtt.dart';
 import 'package:doc_display/state/mqtt_state.dart';
