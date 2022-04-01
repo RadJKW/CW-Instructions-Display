@@ -1,12 +1,4 @@
 class Coil {
-// this class will contain the following coil properties:
-// number, division, material, materialWidth, prevStop, actualStop, nextStop,
-// and the following coil methods:
-// getCoilNumber, getCoilDivision, getCoilMaterial, getCoilMaterialWidth, getCoilPrevStop, getCoilActualStop, getCoilNextStop,
-// setCoilNumber, setCoilDivision, setCoilMaterial, setCoilMaterialWidth, setCoilPrevStop, setCoilActualStop, setCoilNextStop,
-// each value will be decoded using json  from the MqttAppState.getReceivedMessage() string and the coil number will be used to set the coil properties
-
-  // create a variable to hold the mqtt received message string
   String? receivedMessage;
   final String number;
   final String division;
