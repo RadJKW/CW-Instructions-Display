@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:doc_display/state/mqtt_state.dart';
@@ -24,8 +26,9 @@ class MqttManager {
 
   void initializeMqttClient() {
     _client = MqttServerClient(_host, _identifier);
+    _client!.setProtocolV311();
     _client!.port = 1883;
-    _client!.keepAlivePeriod = 20;
+    _client!.keepAlivePeriod = 120;
     _client!.onDisconnected = onDisconnected;
     _client!.secure = false;
     _client!.logging(on: true);
@@ -106,6 +109,8 @@ class MqttManager {
         'EXAMPLE::OnConnected client callback - Client connection was successful');
   }
 }
+
+
 // class MqttManager extends ChangeNotifier {
 //   // Private instance of client
 //   final MqttAppState _currentState;

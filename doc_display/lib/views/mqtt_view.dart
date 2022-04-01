@@ -8,7 +8,6 @@ import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import 'package:doc_display/widgets/msg_view_card.dart';
 import 'package:doc_display/common/theme.dart';
-import 'package:doc_display/screens/mqtt_view.dart';
 import 'package:doc_display/state/mqtt_state.dart';
 import 'package:doc_display/models/mqtt.dart';
 
@@ -53,30 +52,81 @@ class _MqttViewState extends State<MqttView> {
 
     return ScaffoldPage.scrollable(
         header: PageHeader(
-          title: const Text('MQTT BROKER ADDRESS'),
+          title: Text('Coil Number: ${appState.getCoilNumber}'
+               
+          ),
           // TODO: Change the command bar toggle switch to mqtt status indicator
           commandBar: ToggleSwitch(
             checked: _mqttAppState.isConnected,
-            onChanged: (bool value) {
-              //
+            onChanged: (v) {
+              if (v) {
+                _startMqttClient();
+              } else {
+                _stopMqttClient();
+              }
             },
-            content: Text(_mqttAppState.getAppConnectionState.toString()),
+            content:
+                Text(_mqttAppState.isConnected ? 'Connected' : 'Disconnected'),
           ),
         ),
         children: <Widget>[
-          _buildMessageViewer(),
+          _buildMessageViewer(
+            object: _mqttAppState.getCoilDivision,
+            title: 'Division',
+          ),
+          _buildMessageViewer(
+            object: _mqttAppState.getCoilWinding,
+            title: 'Winding',
+          ),
+          _buildMessageViewer(
+            object: _mqttAppState.getCoilMaterial,
+            title: 'Material',
+          ),
+          _buildMessageViewer(
+            object: _mqttAppState.getCoilMaterialWidth,
+            title: 'Material Width',
+          ),
+          _buildMessageViewer(
+            object: _mqttAppState.getCoilPrevStop,
+            title: 'Previous Stop',
+          ),
+          _buildMessageViewer(
+            object: _mqttAppState.getCoilActiveStop,
+            title: 'Active Stop',
+          ),
+          _buildMessageViewer(
+            object: _mqttAppState.getCoilNextStop,
+            title: 'Next Stop',
+          ),
           _buildDivider(),
           _buildScrollableTextBox(
             title: 'Mqtt Payload',
             text: _mqttAppState.getReceivedText,
           ),
           _buildDivider(),
-          _buildConnectButtonFrom(_mqttAppState.getAppConnectionState),
         ]);
   }
 
-  Widget _buildMessageViewer() {
-    return const MessageViewer();
+  Widget _buildMessageViewer({required String object, String? title}) {
+    return Card(
+      child: TextBox(
+        readOnly: false,
+        padding: const EdgeInsetsDirectional.only(start: 30),
+        placeholder: object,
+        outsidePrefix: Padding(
+            padding: const EdgeInsetsDirectional.only(start: 50),
+            child: SizedBox(width: 150, child: Text(title ?? 'Title'))),
+        outsideSuffix: Padding(
+          padding: const EdgeInsetsDirectional.only(start: 20),
+          child: IconButton(
+            icon: const Icon(FluentIcons.sync),
+            onPressed: () {},
+          ),
+          // ],
+        ),
+      ),
+    );
+    //return const MessageViewer();
   }
 
   Widget _buildDivider() {
@@ -101,13 +151,9 @@ class _MqttViewState extends State<MqttView> {
     );
   }
 
-  // build a widget '_buildConnectButtonFrom (MqttAppConnectionState)
-  // the widget will return a button with the text 'Connect' when MqttAppConnectionState is 'disconnected' 
-  // and 'Disconnect' when MqttAppConnectionState is 'connected'
-
   Widget _buildConnectButtonFrom(MqttAppConnectionState state) {
     return Button(
-      child: Text( state == MqttAppConnectionState.disconnected
+      child: Text(state == MqttAppConnectionState.disconnected
           ? 'Connect'
           : 'Disconnect'),
       onPressed: () {
@@ -122,7 +168,7 @@ class _MqttViewState extends State<MqttView> {
 
   void _startMqttClient() {
     mqttManager = MqttManager(
-      host: '192.168.0.17',
+      host: '192.168.0.30',
       topic: 'pi/cw88/#',
       identifier: 'radpi-cw88',
       state: _mqttAppState,
