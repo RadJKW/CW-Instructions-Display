@@ -44,3 +44,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Ignores system generated files
+/linux/flutter/generated*
+/macos/flutter/generated*
+/windows/flutter/generated*
+
