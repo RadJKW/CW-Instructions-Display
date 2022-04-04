@@ -8,7 +8,7 @@ Read the UART messaging coming from the z80 and display the winder instructions 
 - [ ]  Deploy to other machines
 - [ ]  update custom display stand
 
-[Instruction Display - Task List](Z80%20Coil%20W%20ddb31/Instructio%20acf32.csv)
+[Using Python Script to view Instructions](rad/cw-instructions-display/python_uart_to_web/)
 
 [Untitled](Z80%20Coil%20W%20ddb31/Untitled%20D%209b372.csv)
 
