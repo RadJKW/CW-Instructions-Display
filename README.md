@@ -1,19 +1,22 @@
-<<<<<<< HEAD
+
+# Z80 Coil Winder
 
 
-=======
+# Description
 
-<details>
-<summary> March 2022 </summary>
+Read the UART messaging coming from the z80 and display the winder instructions on the screen using a raspberry pi
 
-## 01
+- [ ]  Finish updating Division 3 coil winding practice documentation
+- [ ]  Deploy to other machines
+- [ ]  update custom display stand
 
- 
-=======
-This project will use a Raspberry Pi as an add on to existing z80 Coil Winding Machines. The pi will receive UART messages directly from the z80 that actively provide the current stop of the active coil. Depending on the specific 'Stop Code'
+[Using Python Script to view Instructions](python_uart_to_web)
+
+[Using Flutter to view Instructions](doc_display)
+
+# Coil Winder Instruction Display
 
 
-=======
 # Z80 Coil Winder
 
 # Description
@@ -190,4 +193,4 @@ Quick Links
 ### Python
 
 ### Linux
->>>>>>> flutter-app
+
