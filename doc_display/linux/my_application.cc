@@ -6,7 +6,7 @@
 #endif
 
 #include "flutter/generated_plugin_registrant.h"
-#include <bitsdojo_window_linux/bitsdojo_window_plugin.h>
+
 
 struct _MyApplication
 {
@@ -55,9 +55,10 @@ static void my_application_activate(GApplication *application)
     gtk_window_set_title(window, "doc_display");
   }
 
-  auto bdw = bitsdojo_window_from(window); // <--- add this line
-  bdw->setCustomFrame(true);               // <-- add this line
+  // auto bdw = bitsdojo_window_from(window); // <--- add this line
+  // bdw->setCustomFrame(true);               // <-- add this line
   // gtk_window_set_default_size(window, 1280, 720);   // <-- comment this line
+  gtk_window_fullscreen(GTK_WINDOW(window));           // <-- comment this line
   gtk_widget_show(GTK_WIDGET(window));
 
   g_autoptr(FlDartProject) project = fl_dart_project_new();
