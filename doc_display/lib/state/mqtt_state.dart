@@ -16,13 +16,15 @@ class MqttAppState with ChangeNotifier {
   Coil?  _coil;
   String _receivedText = '';
   int count = 0;
+  // variable to hold date and time of last message
+  DateTime? _lastMessageDateTime;
 
   void setReceivedText(String text) {
     _receivedText = text;
     Map<String, dynamic> coilJson = jsonDecode(_receivedText);
     _coil = Coil.fromJson(coilJson);
-    //debug print to console each coil attribute
-
+    // update the _lastMessageDateTime
+    _lastMessageDateTime = DateTime.now();
     notifyListeners();
   }
 
@@ -33,6 +35,8 @@ class MqttAppState with ChangeNotifier {
 
   MqttAppConnectionState get getAppConnectionState => _appState;
 
+  
+  String? get getLastMessageDateTime => _lastMessageDateTime?.toString();
   String get getReceivedText => _receivedText + ': $count';
   String get isConnectedText => _appState == MqttAppConnectionState.connected
       ? 'Connected'

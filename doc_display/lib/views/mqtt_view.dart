@@ -27,7 +27,7 @@ class MqttView extends StatefulWidget {
 
 class _MqttViewState extends State<MqttView> {
   late MqttAppState _mqttAppState;
-  late MqttManager mqttManager;
+  late final MqttManager mqttManager;
 
   @override
   void initState() {
@@ -52,10 +52,15 @@ class _MqttViewState extends State<MqttView> {
 
     return ScaffoldPage.scrollable(
         header: PageHeader(
-          title: Text('Coil Number: ${appState.getCoilNumber}'
-               
+          leading: // show the date and time of MqttAppState. _lastMessageDateTime.
+              Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 50),
+            child: Text(
+              '${_mqttAppState.getLastMessageDateTime}',
+              style: const TextStyle(fontSize: 12),
+            ),
           ),
-          // TODO: Change the command bar toggle switch to mqtt status indicator
+          title: Text('Coil Number: ${appState.getCoilNumber}'),
           commandBar: ToggleSwitch(
             checked: _mqttAppState.isConnected,
             onChanged: (v) {
@@ -75,29 +80,18 @@ class _MqttViewState extends State<MqttView> {
             title: 'Division',
           ),
           _buildMessageViewer(
-            object: _mqttAppState.getCoilWinding,
-            title: 'Winding',
-          ),
+              object: _mqttAppState.getCoilWinding, title: 'Winding'),
           _buildMessageViewer(
-            object: _mqttAppState.getCoilMaterial,
-            title: 'Material',
-          ),
+              object: _mqttAppState.getCoilMaterial, title: 'Material'),
           _buildMessageViewer(
-            object: _mqttAppState.getCoilMaterialWidth,
-            title: 'Material Width',
-          ),
+              object: _mqttAppState.getCoilMaterialWidth,
+              title: 'Material Width'),
           _buildMessageViewer(
-            object: _mqttAppState.getCoilPrevStop,
-            title: 'Previous Stop',
-          ),
+              object: _mqttAppState.getCoilPrevStop, title: 'Previous Stop'),
           _buildMessageViewer(
-            object: _mqttAppState.getCoilActiveStop,
-            title: 'Active Stop',
-          ),
+              object: _mqttAppState.getCoilActiveStop, title: 'Active Stop'),
           _buildMessageViewer(
-            object: _mqttAppState.getCoilNextStop,
-            title: 'Next Stop',
-          ),
+              object: _mqttAppState.getCoilNextStop, title: 'Next Stop'),
           _buildDivider(),
           _buildScrollableTextBox(
             title: 'Mqtt Payload',
@@ -108,21 +102,24 @@ class _MqttViewState extends State<MqttView> {
   }
 
   Widget _buildMessageViewer({required String object, String? title}) {
-    return Card(
-      child: TextBox(
-        readOnly: false,
-        padding: const EdgeInsetsDirectional.only(start: 30),
-        placeholder: object,
-        outsidePrefix: Padding(
-            padding: const EdgeInsetsDirectional.only(start: 50),
-            child: SizedBox(width: 150, child: Text(title ?? 'Title'))),
-        outsideSuffix: Padding(
-          padding: const EdgeInsetsDirectional.only(start: 20),
-          child: IconButton(
-            icon: const Icon(FluentIcons.sync),
-            onPressed: () {},
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Card(
+        child: TextBox(
+          readOnly: true,
+          padding: const EdgeInsetsDirectional.only(start: 30),
+          placeholder: object,
+          outsidePrefix: Padding(
+              padding: const EdgeInsetsDirectional.only(start: 50),
+              child: SizedBox(width: 150, child: Text(title ?? 'Title'))),
+          outsideSuffix: Padding(
+            padding: const EdgeInsetsDirectional.only(start: 20),
+            child: IconButton(
+              icon: const Icon(FluentIcons.sync),
+              onPressed: () {},
+            ),
+            // ],
           ),
-          // ],
         ),
       ),
     );

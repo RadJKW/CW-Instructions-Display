@@ -47,6 +47,7 @@ class MyApp extends StatelessWidget {
           title: appTitle,
           themeMode: appTheme.mode,
           debugShowCheckedModeBanner: false,
+          showPerformanceOverlay: false,
           initialRoute: '/',
           routes: {'/': (_) => const MyHomePage()},
           color: appTheme.color,
