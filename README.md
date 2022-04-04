@@ -1,4 +1,6 @@
+
 # Z80 Coil Winder
+
 
 # Description
 
@@ -11,6 +13,23 @@ Read the UART messaging coming from the z80 and display the winder instructions 
 [Using Python Script to view Instructions](python_uart_to_web)
 
 [Using Flutter to view Instructions](doc_display)
+
+# Coil Winder Instruction Display
+
+
+# Z80 Coil Winder
+
+# Description
+
+Read the UART messaging coming from the z80 and display the winder instructions on the screen using a raspberry pi
+
+- [ ]  Finish updating Division 3 coil winding practice documentation
+- [ ]  Deploy to other machines
+- [ ]  update custom display stand
+
+[Instruction Display - Task List](Z80%20Coil%20W%20ddb31/Instructio%20acf32.csv)
+
+[Untitled](Z80%20Coil%20W%20ddb31/Untitled%20D%209b372.csv)
 
 # Coil Winder Instruction Display
 
@@ -174,3 +193,4 @@ Quick Links
 ### Python
 
 ### Linux
+
