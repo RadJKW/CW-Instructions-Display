@@ -109,6 +109,8 @@ unlinked_spec.ds
 
 # Windows
 **/windows/Flutter/generated_plugin*
+**\windows\Flutter\generated_plugin*
+**\linux\Flutter\generated_plugin*
 
 # Coverage
 coverage/
