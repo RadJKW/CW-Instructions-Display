@@ -2,6 +2,8 @@
 
 A new Flutter project.
 
+## Add instructions on using this Flutter Application to view CW-Instructions Display on the pi
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
