@@ -33,12 +33,12 @@ class Coil {
         'nextStop': nextStop,
       };
 
-  String get getNumber => number;
-  String get getDivision => division;
-  String get getWinding => winding;
-  String get getMaterial => material;
-  String get getMaterialWidth => materialWidth;
-  String get getPrevStop => prevStop;
-  String get getActiveStop => activeStop;
-  String get getNextStop => nextStop;
+  // String get getNumber => number;
+  // String get getDivision => division;
+  // String get getWinding => winding;
+  // String get getMaterial => material;
+  // String get getMaterialWidth => materialWidth;
+  // String get getPrevStop => prevStop;
+  // String get getActiveStop => activeStop;
+  // String get getNextStop => nextStop;
 }
