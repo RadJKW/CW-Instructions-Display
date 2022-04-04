@@ -10,12 +10,13 @@ enum MqttAppConnectionState {
   disconnected,
   error,
 }
-
 class MqttAppState with ChangeNotifier {
+  // void connectToMqtt() {
+    
   MqttAppConnectionState _appState = MqttAppConnectionState.disconnected;
   Coil?  _coil;
   String _receivedText = '';
-  int count = 0;
+  int _pageIndex = 4;
   // variable to hold date and time of last message
   DateTime? _lastMessageDateTime;
 
@@ -25,6 +26,12 @@ class MqttAppState with ChangeNotifier {
     _coil = Coil.fromJson(coilJson);
     // update the _lastMessageDateTime
     _lastMessageDateTime = DateTime.now();
+    // iff _pageindex is not 4 then call setCurrentPage to 4 
+
+
+    if (_pageIndex != 4) {
+      setCurrentPage(4);
+    }
     notifyListeners();
   }
 
@@ -33,24 +40,35 @@ class MqttAppState with ChangeNotifier {
     notifyListeners();
   }
 
+  void setCurrentPage(int index) {
+    _pageIndex = index;
+    notifyListeners();
+  }
+
+  // create a new setter for the status of the mqtt connection
+  
+
+
+
+
+
   MqttAppConnectionState get getAppConnectionState => _appState;
 
-  
+  int get getCurrentPage => _pageIndex;
   String? get getLastMessageDateTime => _lastMessageDateTime?.toString();
-  String get getReceivedText => _receivedText + ': $count';
+  String get getReceivedText => _receivedText;
   String get isConnectedText => _appState == MqttAppConnectionState.connected
       ? 'Connected'
       : 'Disconnected';
-  // create a getter for each coil attribute: winding, material,materialWidth,prevStop,activeStop,nextStop;
   
-  String get getCoilNumber => _coil?.getNumber  ?? '';
-  String get getCoilDivision => _coil?.getDivision ?? '';
-  String get getCoilWinding => _coil?.getWinding ?? '';
-  String get getCoilMaterial => _coil?.getMaterial ?? '';
-  String get getCoilMaterialWidth => _coil?.getMaterialWidth ?? '';
-  String get getCoilPrevStop => _coil?.getPrevStop ?? '';
-  String get getCoilActiveStop => _coil?.getActiveStop ?? '';
-  String get getCoilNextStop => _coil?.getNextStop ?? '';
+  String get getCoilNumber => _coil?.number  ?? '';
+  String get getCoilDivision => _coil?.division ?? '';
+  String get getCoilWinding => _coil?.winding ?? '';
+  String get getCoilMaterial => _coil?.material ?? '';
+  String get getCoilMaterialWidth => _coil?.materialWidth ?? '';
+  String get getCoilPrevStop => _coil?.prevStop ?? '';
+  String get getCoilActiveStop => _coil?.activeStop ?? '';
+  String get getCoilNextStop => _coil?.nextStop ?? '';
 
   bool get isConnected => _appState == MqttAppConnectionState.connected;
 }

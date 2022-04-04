@@ -3,7 +3,6 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  flutter_acrylic
   url_launcher_windows
   window_manager
 )
