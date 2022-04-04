@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=DocDisplay
+Comment=Python Script to Log Uart from Z80
+Exec=lxterminal -e python3 /home/pi/Python-Dev/uart_to_web.py
+StartupNotify=true
+Icon=lxterminal
+Hidden=false
+Terminal=false
+Type=Application
+Categories=Utility;
