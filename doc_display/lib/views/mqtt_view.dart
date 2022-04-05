@@ -6,9 +6,8 @@ import 'dart:io';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
-import 'package:doc_display/widgets/msg_view_card.dart';
 import 'package:doc_display/common/theme.dart';
-import 'package:doc_display/state/mqtt_state.dart';
+import 'package:doc_display/models/app.dart';
 // import 'package:doc_display/models/mqtt.dart';
 
 // TODO: import required packages
@@ -26,13 +25,12 @@ class MqttView extends StatefulWidget {
 }
 
 class _MqttViewState extends State<MqttView> {
-  late MqttAppState _mqttAppState;
   // late final MqttManager mqttManager;
 
   @override
   void initState() {
     super.initState();
-    // _mqttAppState = Provider.of<MqttAppState>(context);
+    // appState = Provider.of<MqttAppState>(context);
     // _startMqttClient();
   }
 
@@ -43,9 +41,7 @@ class _MqttViewState extends State<MqttView> {
 
   @override
   Widget build(BuildContext context) {
-    final MqttAppState appState = context.watch<MqttAppState>();
-    _mqttAppState = appState;
-    bool isChecked = false;
+    final AppState appState = context.watch<AppState>();
     if (kDebugMode) {
       print('MqttView build()');
     }
@@ -56,13 +52,13 @@ class _MqttViewState extends State<MqttView> {
               Padding(
             padding: const EdgeInsets.symmetric(horizontal: 50),
             child: Text(
-              '${_mqttAppState.getLastMessageDateTime}',
+              '${appState.getLastMessageDateTime}',
               style: const TextStyle(fontSize: 12),
             ),
           ),
           title: Text('Coil Number: ${appState.getCoilNumber}'),
           // commandBar: ToggleSwitch(
-          //   checked: _mqttAppState.isConnected,
+          //   checked: appState.isConnected,
           //   onChanged: (v) {
           //     // if (v) {
           //     //   _startMqttClient();
@@ -71,31 +67,31 @@ class _MqttViewState extends State<MqttView> {
           //     // }
           //   },
           //   content:
-          //       Text(_mqttAppState.isConnected ? 'Connected' : 'Disconnected'),
+          //       Text(appState.isConnected ? 'Connected' : 'Disconnected'),
           // ),
         ),
         children: <Widget>[
           _buildMessageViewer(
-            object: _mqttAppState.getCoilDivision,
+            object: appState.getCoilDivision,
             title: 'Division',
           ),
           _buildMessageViewer(
-              object: _mqttAppState.getCoilWinding, title: 'Winding'),
+              object: appState.getCoilWinding, title: 'Winding'),
           _buildMessageViewer(
-              object: _mqttAppState.getCoilMaterial, title: 'Material'),
+              object: appState.getCoilMaterial, title: 'Material'),
           _buildMessageViewer(
-              object: _mqttAppState.getCoilMaterialWidth,
+              object: appState.getCoilMaterialWidth,
               title: 'Material Width'),
           _buildMessageViewer(
-              object: _mqttAppState.getCoilPrevStop, title: 'Previous Stop'),
+              object: appState.getCoilPrevStop, title: 'Previous Stop'),
           _buildMessageViewer(
-              object: _mqttAppState.getCoilActiveStop, title: 'Active Stop'),
+              object: appState.getCoilActiveStop, title: 'Active Stop'),
           _buildMessageViewer(
-              object: _mqttAppState.getCoilNextStop, title: 'Next Stop'),
+              object: appState.getCoilNextStop, title: 'Next Stop'),
           _buildDivider(),
           _buildScrollableTextBox(
             title: 'Mqtt Payload',
-            text: _mqttAppState.getReceivedText,
+            text: appState.getReceivedText,
           ),
           _buildDivider(),
         ]);
