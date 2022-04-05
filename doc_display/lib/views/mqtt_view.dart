@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:doc_display/widgets/msg_view_card.dart';
 import 'package:doc_display/common/theme.dart';
 import 'package:doc_display/state/mqtt_state.dart';
-import 'package:doc_display/models/mqtt.dart';
+// import 'package:doc_display/models/mqtt.dart';
 
 // TODO: import required packages
 //    mqtt_client
@@ -27,7 +27,7 @@ class MqttView extends StatefulWidget {
 
 class _MqttViewState extends State<MqttView> {
   late MqttAppState _mqttAppState;
-  late final MqttManager mqttManager;
+  // late final MqttManager mqttManager;
 
   @override
   void initState() {
@@ -61,18 +61,18 @@ class _MqttViewState extends State<MqttView> {
             ),
           ),
           title: Text('Coil Number: ${appState.getCoilNumber}'),
-          commandBar: ToggleSwitch(
-            checked: _mqttAppState.isConnected,
-            onChanged: (v) {
-              if (v) {
-                _startMqttClient();
-              } else {
-                _stopMqttClient();
-              }
-            },
-            content:
-                Text(_mqttAppState.isConnected ? 'Connected' : 'Disconnected'),
-          ),
+          // commandBar: ToggleSwitch(
+          //   checked: _mqttAppState.isConnected,
+          //   onChanged: (v) {
+          //     // if (v) {
+          //     //   _startMqttClient();
+          //     // } else {
+          //     //   _stopMqttClient();
+          //     // }
+          //   },
+          //   content:
+          //       Text(_mqttAppState.isConnected ? 'Connected' : 'Disconnected'),
+          // ),
         ),
         children: <Widget>[
           _buildMessageViewer(
@@ -146,36 +146,7 @@ class _MqttViewState extends State<MqttView> {
       minHeight: 100,
       placeholder: text ?? 'hello world',
     );
-  }
+  } 
 
-  Widget _buildConnectButtonFrom(MqttAppConnectionState state) {
-    return Button(
-      child: Text(state == MqttAppConnectionState.disconnected
-          ? 'Connect'
-          : 'Disconnect'),
-      onPressed: () {
-        if (state == MqttAppConnectionState.disconnected) {
-          _startMqttClient();
-        } else {
-          _stopMqttClient();
-        }
-      },
-    );
-  }
-
-  void _startMqttClient() {
-    mqttManager = MqttManager(
-      host: '192.168.0.30',
-      topic: 'pi/cw88/#',
-      identifier: 'radpi-cw88',
-      state: _mqttAppState,
-    );
-    //TODO: uncommenting the following lines caused mqtt infinite 'print'/'debug' loop.
-    mqttManager.initializeMqttClient();
-    mqttManager.connect();
-  }
-
-  void _stopMqttClient() {
-    mqttManager.disconnect();
-  }
+  
 }

@@ -2,7 +2,6 @@
 
 import 'package:window_manager/window_manager.dart';
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 
 import 'package:doc_display/views/browse.dart';
@@ -16,15 +15,6 @@ import 'package:doc_display/models/mqtt.dart';
 import 'package:doc_display/state/mqtt_state.dart';
 
 const String appTitle = 'Coil Winder Instructions Display';
-bool get isDesktop {
-  if (kIsWeb) return false;
-  return [
-    TargetPlatform.windows,
-    TargetPlatform.linux,
-    TargetPlatform.macOS,
-  ].contains(defaultTargetPlatform);
-}
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -77,13 +67,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with WindowListener {
-  bool value = false;
-
   final settingsController = ScrollController();
+  String broker = '192.168.0.30';
+  String port = '1883';
+  String topic = 'pi/cw88/#';
+  String clientId = 'radpi-cw88'; // Each Pi's Hostname
+  late MqttAppState _mqttAppState;
+  late MqttManager _mqttManager;
 
   @override
   void initState() {
     windowManager.addListener(this);
+    _startMqttClient();
     super.initState();
   }
 
@@ -97,25 +92,43 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
   @override
   Widget build(BuildContext context) {
     final appTheme = context.watch<AppTheme>();
+    Typography typography = FluentTheme.of(context).typography;
     return ChangeNotifierProvider(
       create: (_) => MqttAppState(),
       builder: (context, _) {
         final mqttAppState = context.watch<MqttAppState>();
+        _mqttAppState = mqttAppState;
         int index = mqttAppState.getCurrentPage;
         return NavigationView(
           appBar: NavigationAppBar(
-            title: () {
-              return const DragToMoveArea(
-                child: Align(
-                  alignment: AlignmentDirectional.centerStart,
-                  child: Text(appTitle),
-                ),
-              );
-            }(),
-            actions: DragToMoveArea(
+            automaticallyImplyLeading: false,
+            leading: const Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: Text('v1.0.0')),
+            title: Align(
+              alignment: AlignmentDirectional.center,
+              child: Text(appTitle, style: typography.title?.apply()),
+            ),
+            actions: Align(
+              alignment: AlignmentDirectional.centerEnd,
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [Spacer()],
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Spacer(),
+                  const Text('MQTT Connection : '),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: ToggleSwitch(
+                          checked: _mqttAppState.isConnected,
+                          onChanged: (v) {
+                            if (v) {
+                              _startMqttClient();
+                            } else {
+                              _stopMqttClient();
+                            }
+                          }))
+                ],
               ),
             ),
           ),
@@ -178,5 +191,21 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
         );
       },
     );
+  }
+
+  void _startMqttClient() {
+    _mqttManager = MqttManager(
+      host: '192.168.0.30',
+      topic: 'pi/cw88/#',
+      identifier: 'radpi-cw88',
+      state: _mqttAppState,
+    );
+    //TODO: uncommenting the following lines caused mqtt infinite 'print'/'debug' ////loop.
+    _mqttManager.initializeMqttClient();
+    _mqttManager.connect();
+  }
+
+  void _stopMqttClient() {
+    _mqttManager.disconnect();
   }
 }
