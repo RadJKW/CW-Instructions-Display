@@ -127,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
       ),
       content: NavigationBody(index: index, children: [
         const Dashboard(), // 0
-        const BrowsePage(), // 1
+        const FileBrowse(), // 1
         const PdfPage(), // 2
         const VidplayerPage(), // 3
         const MqttView(), // 4

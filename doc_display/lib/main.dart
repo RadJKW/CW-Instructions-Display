@@ -4,20 +4,24 @@ import 'package:window_manager/window_manager.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:provider/provider.dart';
 
-import 'package:doc_display/pages/home_page.dart';
-import 'package:doc_display/views/browse.dart';
-import 'package:doc_display/views/dashboard.dart';
-import 'package:doc_display/views/settings.dart';
-import 'package:doc_display/views/pdf_view.dart';
-import 'package:doc_display/views/vid_player.dart';
-import 'package:doc_display/views/mqtt_view.dart';
-import 'package:doc_display/common/theme.dart';
-import 'package:doc_display/models/app.dart';
+import 'common/theme.dart';
+
+import 'pages/home_page.dart';
+
+import 'views/browse.dart';
+import 'views/dashboard.dart';
+import 'views/settings.dart';
+import 'views/pdf_view.dart';
+import 'views/vid_player.dart';
+import 'views/mqtt_view.dart';
+
+import 'models/app.dart';
+
+import 'dart:io';
 
 const String appTitle = 'Coil Winder Instructions Display';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   runApp(const MyApp());
 }
 
