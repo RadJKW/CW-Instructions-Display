@@ -15,7 +15,7 @@ import 'views/pdf_view.dart';
 import 'views/vid_player.dart';
 import 'views/mqtt_view.dart';
 
-import 'models/app.dart';
+import 'models/mqtt.dart';
 
 import 'dart:io';
 
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider<AppTheme>(create: (_) => AppTheme()),
-          ChangeNotifierProvider<AppState>(create: (_) => AppState()),
+          ChangeNotifierProvider<MqttState>(create: (_) => MqttState()),
         ],
         builder: (context, _) {
           final appTheme = context.watch<AppTheme>();

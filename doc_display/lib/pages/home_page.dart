@@ -9,7 +9,7 @@ import 'package:doc_display/views/pdf_view.dart';
 import 'package:doc_display/views/vid_player.dart';
 import 'package:doc_display/views/mqtt_view.dart';
 import 'package:doc_display/common/theme.dart';
-import 'package:doc_display/models/app.dart';
+import 'package:doc_display/models/mqtt.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -42,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
   @override
   Widget build(BuildContext context) {
     final appTheme = context.watch<AppTheme>();
-    final mqttAppState = context.watch<AppState>();
+    final mqttAppState = context.watch<MqttState>();
     int index = mqttAppState.getCurrentPage;
     Typography typography = FluentTheme.of(context).typography;
     return NavigationView(

@@ -7,7 +7,7 @@ import 'package:doc_display/models/coil.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
-enum MqttAppConnectionState {
+enum MqttConnectionState {
   connecting,
   connected,
   disconnected,
@@ -15,18 +15,18 @@ enum MqttAppConnectionState {
   error,
 }
 
-class AppState with ChangeNotifier {
+class MqttState with ChangeNotifier {
   // void connectToMqtt() {
   final _client = MqttServerClient('192.168.0.30', 'flutter-pi-cw88');
   final String _topic = 'pi/cw88/#';
 
-  MqttAppConnectionState _appState = MqttAppConnectionState.disconnected;
+  MqttConnectionState _appState = MqttConnectionState.disconnected;
   Coil? _coil;
   String _receivedText = '';
-  int _pageIndex = 4;
+  int _pageIndex = 1;
   DateTime? _lastMessageDateTime;
 
-  AppState() {
+  MqttState() {
     _client
       ..logging(on: false)
       ..setProtocolV311()
@@ -54,7 +54,7 @@ class AppState with ChangeNotifier {
     notifyListeners();
   }
 
-  void setAppConnectionState(MqttAppConnectionState state) {
+  void setAppConnectionState(MqttConnectionState state) {
     _appState = state;
     notifyListeners();
   }
@@ -125,7 +125,7 @@ class AppState with ChangeNotifier {
   }
 
   void onConnected() {
-    setAppConnectionState(MqttAppConnectionState.connected);
+    setAppConnectionState(MqttConnectionState.connected);
     print('EXAMPLE::Mosquitto client connected....');
     _subscribeToTopic();
     _listenToTopic();
@@ -135,24 +135,23 @@ class AppState with ChangeNotifier {
 
   void onDisconnected() {
     print('EXAMPLE::On disconnected called');
-    setAppConnectionState(MqttAppConnectionState.disconnected);
+    setAppConnectionState(MqttConnectionState.disconnected);
   }
 
   void onSubscribed(String topic) {
     print('EXAMPLE::On subscribed called');
-    setAppConnectionState(MqttAppConnectionState.connected);
+    setAppConnectionState(MqttConnectionState.connected);
   }
 
   // create a new setter for the status of the mqtt connection
 
-  MqttAppConnectionState get getAppConnectionState => _appState;
+  MqttConnectionState get getAppConnectionState => _appState;
 
   int get getCurrentPage => _pageIndex;
   String? get getLastMessageDateTime => _lastMessageDateTime?.toString();
   String get getReceivedText => _receivedText;
-  String get isConnectedText => _appState == MqttAppConnectionState.connected
-      ? 'Connected'
-      : 'Disconnected';
+  String get isConnectedText =>
+      _appState == MqttConnectionState.connected ? 'Connected' : 'Disconnected';
 
   String get getCoilNumber => _coil?.number ?? '';
   String get getCoilDivision => _coil?.division ?? '';
@@ -163,5 +162,5 @@ class AppState with ChangeNotifier {
   String get getCoilActiveStop => _coil?.activeStop ?? '';
   String get getCoilNextStop => _coil?.nextStop ?? '';
 
-  bool get isConnected => _appState == MqttAppConnectionState.connected;
+  bool get isConnected => _appState == MqttConnectionState.connected;
 }

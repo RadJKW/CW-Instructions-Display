@@ -7,7 +7,7 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import 'package:doc_display/common/theme.dart';
-import 'package:doc_display/models/app.dart';
+import 'package:doc_display/models/mqtt.dart';
 // import 'package:doc_display/models/mqtt.dart';
 
 // TODO: import required packages
@@ -41,7 +41,7 @@ class _MqttViewState extends State<MqttView> {
 
   @override
   Widget build(BuildContext context) {
-    final AppState appState = context.watch<AppState>();
+    final MqttState appState = context.watch<MqttState>();
     if (kDebugMode) {
       print('MqttView build()');
     }
