@@ -13,20 +13,15 @@ class FileBrowse extends StatefulWidget {
 
 class _FileBrowseState extends State<FileBrowse> {
   // if _path
-  String get _currentViewPath => () {
-        if (_path == _basePath ) {
-          return 'NFS: ';
-        } else {
-          return 'NFS: ${_path.replaceAll(_basePath, '')}';
-        }
-
-      }();
+  String get _currentViewPath => _path.replaceAll(_basePath, '');
   String _path =
       '/mnt/public/CoilWinder_InstructionsDisplay/WindingPractices/Documents/Updated/';
 
   final String _basePath =
       '/mnt/public/CoilWinder_InstructionsDisplay/WindingPractices/Documents/Updated/';
   late var _items = [];
+
+  bool atBasePath() => _path == _basePath;
 
   @override
   void initState() {
@@ -44,7 +39,7 @@ class _FileBrowseState extends State<FileBrowse> {
     final padding = PageHeader.horizontalPadding(context);
     return ScaffoldPage(
         header: PageHeader(
-          title: Text(_currentViewPath,
+          title: Text('NFS: '+ _currentViewPath,
               maxLines: 1, overflow: TextOverflow.ellipsis),
           commandBar: Expanded(
             child: AutoSuggestBox(
@@ -54,14 +49,21 @@ class _FileBrowseState extends State<FileBrowse> {
                   .map((item) =>
                       item.path.toString().substring(_basePath.length))
                   .toList(),
-              leadingIcon: IconButton(
-                  icon: const Icon(FluentIcons.chrome_back),
-                  onPressed: // get the previous path and get the items
-                      () {
-                    _goToParentDirectory();
-                    
-                  }),
-                                  onSelected: //set the state with the slected item
+              leadingIcon: // if boolean atBasePath is true
+                  // display the IconButton
+                  // if false, display nothing
+                  atBasePath()
+                      ? null
+                      : IconButton(
+                          icon: const Icon(FluentIcons.chrome_back, size: 20),
+                          onPressed: () {
+                            setState(() {
+                               _path = _basePath;
+                            _getItemsFromPath(_path);
+                            });
+                           
+                          }),
+              onSelected: //set the state with the slected item
                   (item) {
                 _path = _basePath + item;
                 _getItemsFromPath(_path);
@@ -69,22 +71,22 @@ class _FileBrowseState extends State<FileBrowse> {
             ),
           ),
         ),
-        content:
-            GridView.extent(
-                maxCrossAxisExtent: 150,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-                padding: EdgeInsets.only(
-                    top: kPageDefaultVerticalPadding,
-                    right: padding,
-                    left: padding),
-                children: _items //.map((item) => Text(item.path)).toList()
-                    .map((item) => _buildHoverButton(context, item))
-                    .toList()));
+        content: GridView.extent(
+            maxCrossAxisExtent: 150,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
+            padding: EdgeInsets.only(
+                top: kPageDefaultVerticalPadding,
+                right: padding,
+                left: padding),
+            children: _items //.map((item) => Text(item.path)).toList()
+                .map((item) => _buildHoverButton(context, item))
+                .toList()));
   }
 
   void _getItemsFromPath(String path) {
-    Iterable<FileSystemEntity> items = Directory(path,
+    Iterable<FileSystemEntity> items = Directory(
+      path,
     ).listSync();
     items = items.orderBy((item) => item.path);
     _items = items.toList();
@@ -98,13 +100,11 @@ class _FileBrowseState extends State<FileBrowse> {
   }
 
   void _goToParentDirectory() {
-    print(_path.substring(0,_path.lastIndexOf('/')));
+    print(_path.substring(0, _path.lastIndexOf('/')));
     setState(() {
       _path = _path.substring(0, _path.lastIndexOf('/'));
       _getItemsFromPath(_path);
     });
-
-    
   }
 
   void setFileState(item) {

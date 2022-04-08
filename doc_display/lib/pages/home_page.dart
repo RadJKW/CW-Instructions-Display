@@ -62,6 +62,7 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
             children: [
               const Spacer(),
               const Text('MQTT Connection : '),
+              
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: ToggleSwitch(
@@ -129,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
         const Dashboard(), // 0
         const FileBrowse(), // 1
         const PdfPage(), // 2
-        const VidplayerPage(), // 3
+        const DartVLCExample(), // 3
         const MqttView(), // 4
         SettingsPage(controller: settingsController),
       ]),

@@ -1,8 +1,6 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
 
-
-
 class AppTheme extends ChangeNotifier {
   AccentColor _color = Colors.blue;
   AccentColor get color => _color;
@@ -18,13 +16,12 @@ class AppTheme extends ChangeNotifier {
     notifyListeners();
   }
 
-  PaneDisplayMode _displayMode = PaneDisplayMode.auto;
+  PaneDisplayMode _displayMode = PaneDisplayMode.compact;
   PaneDisplayMode get displayMode => _displayMode;
   set displayMode(PaneDisplayMode displayMode) {
     _displayMode = displayMode;
     notifyListeners();
   }
-
 }
 
 AccentColor get systemAccentColor {

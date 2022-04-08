@@ -23,7 +23,7 @@ class MqttState with ChangeNotifier {
   MqttConnectionState _appState = MqttConnectionState.disconnected;
   Coil? _coil;
   String _receivedText = '';
-  int _pageIndex = 1;
+  int _pageIndex = 4;
   DateTime? _lastMessageDateTime;
 
   MqttState() {
@@ -44,10 +44,7 @@ class MqttState with ChangeNotifier {
     _receivedText = text;
     Map<String, dynamic> coilJson = jsonDecode(_receivedText);
     _coil = Coil.fromJson(coilJson);
-    // update the _lastMessageDateTime
     _lastMessageDateTime = DateTime.now();
-    // iff _pageindex is not 4 then call setCurrentPage to 4
-
     if (_pageIndex != 4) {
       setCurrentPage(4);
     }
@@ -85,15 +82,6 @@ class MqttState with ChangeNotifier {
       _client.disconnect();
     }
   }
-  // this works but removing for now due to lag on toggle switch
-  // void _disconnectClient() async {
-  //   await MqttUtilities.asyncSleep(2);
-  //   setAppConnectionState(MqttAppConnectionState.disconnecting);
-  //   print('EXAMPLE::Disconnecting client');
-  //   _client.disconnect();
-  //   print('EXAMPLE::Client is disconnected');
-
-  // }
 
   void _subscribeToTopic() {
     _client.subscribe(_topic, MqttQos.atLeastOnce);

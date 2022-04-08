@@ -18,6 +18,9 @@ dependencies:
   mqtt_client: ^9.6.5
   short_uuids: ^2.0.0
   darq: ^1.1.1
+  pdf: ^3.7.3
+  printing: ^5.7.5
+  dart_vlc: ^0.1.9
 dev_dependencies:
   flutter_test:
     sdk: flutter

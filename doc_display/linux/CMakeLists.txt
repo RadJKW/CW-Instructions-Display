@@ -8,6 +8,10 @@ cmake_policy(SET CMP0063 NEW)
 
 set(CMAKE_INSTALL_RPATH "$ORIGIN/lib")
 
+# Pdfium library setup for flutter:package:printing.dart
+set(PDFIUM_VERSION "4983" CACHE STRING "" FORCE)
+set(PDFIUM_ARCH "arm64" CACHE STRING "" FORCE)
+
 # Root filesystem for cross-building.
 if(FLUTTER_TARGET_PLATFORM_SYSROOT)
   set(CMAKE_SYSROOT ${FLUTTER_TARGET_PLATFORM_SYSROOT})
