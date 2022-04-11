@@ -86,8 +86,10 @@ class DartVLCExampleState extends State<DartVLCExample> {
         child: Video(
           playlistLength: medias.length,
           player: player,
-          width: MediaQuery.of(context).size.width * 0.9,
-          height: MediaQuery.of(context).size.height * 0.75,
+          width: player.videoDimensions.width.toDouble(),
+          height: player.videoDimensions.height.toDouble(),
+          // width: MediaQuery.of(context).size.width * 0.9,
+          // height: MediaQuery.of(context).size.height * 0.75,
           volumeThumbColor: Colors.blue,
           volumeActiveColor: Colors.blue,
         ),
