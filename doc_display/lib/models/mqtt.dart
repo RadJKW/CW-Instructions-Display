@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+
 
 import 'dart:convert';
 import 'dart:io';
@@ -75,10 +75,16 @@ class MqttState with ChangeNotifier {
     try {
       await _client.connect();
     } on NoConnectionException catch (e) {
-      print('EXAMPLE::client exception - $e');
+      if (kDebugMode) {
+        if (kDebugMode) {
+      }
+        print('EXAMPLE::client exception - $e');
+      }
       _client.disconnect();
     } on SocketException catch (e) {
-      print('EXAMPLE::socket exception - $e');
+      if (kDebugMode) {
+        print('EXAMPLE::socket exception - $e');
+      }
       _client.disconnect();
     }
   }
@@ -96,9 +102,13 @@ class MqttState with ChangeNotifier {
       final String pt =
           MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
       setReceivedText(pt);
-      print(
+      if (kDebugMode) {
+        print(
           'EXAMPLE::Change notification:: topic is <${c[0].topic}>, payload is <-- $pt -->');
-      print('');
+      }
+      if (kDebugMode) {
+        print('');
+      }
     });
   }
 
@@ -114,20 +124,28 @@ class MqttState with ChangeNotifier {
 
   void onConnected() {
     setAppConnectionState(MqttConnectionState.connected);
-    print('EXAMPLE::Mosquitto client connected....');
+    if (kDebugMode) {
+      print('EXAMPLE::Mosquitto client connected....');
+    }
     _subscribeToTopic();
     _listenToTopic();
-    print(
+    if (kDebugMode) {
+      print(
         'EXAMPLE::OnConnected client callback - Client connection was successful');
+    }
   }
 
   void onDisconnected() {
-    print('EXAMPLE::On disconnected called');
+    if (kDebugMode) {
+      print('EXAMPLE::On disconnected called');
+    }
     setAppConnectionState(MqttConnectionState.disconnected);
   }
 
   void onSubscribed(String topic) {
-    print('EXAMPLE::On subscribed called');
+    if (kDebugMode) {
+      print('EXAMPLE::On subscribed called');
+    }
     setAppConnectionState(MqttConnectionState.connected);
   }
 
