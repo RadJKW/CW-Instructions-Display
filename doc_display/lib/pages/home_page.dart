@@ -1,3 +1,4 @@
+
 import 'package:window_manager/window_manager.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:provider/provider.dart';
@@ -6,7 +7,8 @@ import 'package:doc_display/views/browse.dart';
 import 'package:doc_display/views/dashboard.dart';
 import 'package:doc_display/views/settings.dart';
 import 'package:doc_display/views/pdf_view.dart';
-import 'package:doc_display/views/vid_player.dart';
+import 'package:doc_display/views/dart_vlcplayer.dart';
+import 'package:doc_display/views/video_player.dart';
 import 'package:doc_display/views/mqtt_view.dart';
 import 'package:doc_display/common/theme.dart';
 import 'package:doc_display/models/mqtt.dart';
@@ -130,7 +132,8 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
         const Dashboard(), // 0
         const FileBrowse(), // 1
         const PdfPage(), // 2
-        const DartVLCExample(), // 3
+        const VideoApp(), // 3
+        // const DartVLCExample(), // 3
         const MqttView(), // 4
         SettingsPage(controller: settingsController),
       ]),

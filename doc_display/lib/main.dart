@@ -3,15 +3,13 @@
 import 'package:window_manager/window_manager.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:provider/provider.dart';
-import 'package:dart_vlc/dart_vlc.dart';
-
 import 'common/theme.dart';
 import 'pages/home_page.dart';
 import 'views/browse.dart';
 import 'views/dashboard.dart';
 import 'views/settings.dart';
 import 'views/pdf_view.dart';
-import 'views/vid_player.dart';
+import 'views/dart_vlcplayer.dart';
 import 'views/mqtt_view.dart';
 
 import 'models/mqtt.dart';
@@ -20,7 +18,7 @@ import 'dart:io';
 
 const String appTitle = 'Coil Winder Instructions Display';
 void main() async {
-  DartVLC.initialize();
+  // DartVLC.initialize();
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }

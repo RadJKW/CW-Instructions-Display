@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
@@ -23,7 +21,8 @@ class MqttState with ChangeNotifier {
   MqttConnectionState _appState = MqttConnectionState.disconnected;
   Coil? _coil;
   String _receivedText = '';
-  int _pageIndex = 4;
+  int _checkPage = 4;
+  int _pageIndex = 4  ;
   DateTime? _lastMessageDateTime;
 
   MqttState() {
@@ -45,8 +44,8 @@ class MqttState with ChangeNotifier {
     Map<String, dynamic> coilJson = jsonDecode(_receivedText);
     _coil = Coil.fromJson(coilJson);
     _lastMessageDateTime = DateTime.now();
-    if (_pageIndex != 4) {
-      setCurrentPage(4);
+    if (_pageIndex != _checkPage) {
+      setCurrentPage(_checkPage);
     }
     notifyListeners();
   }
@@ -76,8 +75,7 @@ class MqttState with ChangeNotifier {
       await _client.connect();
     } on NoConnectionException catch (e) {
       if (kDebugMode) {
-        if (kDebugMode) {
-      }
+        if (kDebugMode) {}
         print('EXAMPLE::client exception - $e');
       }
       _client.disconnect();
@@ -104,7 +102,7 @@ class MqttState with ChangeNotifier {
       setReceivedText(pt);
       if (kDebugMode) {
         print(
-          'EXAMPLE::Change notification:: topic is <${c[0].topic}>, payload is <-- $pt -->');
+            'EXAMPLE::Change notification:: topic is <${c[0].topic}>, payload is <-- $pt -->');
       }
       if (kDebugMode) {
         print('');
@@ -131,7 +129,7 @@ class MqttState with ChangeNotifier {
     _listenToTopic();
     if (kDebugMode) {
       print(
-        'EXAMPLE::OnConnected client callback - Client connection was successful');
+          'EXAMPLE::OnConnected client callback - Client connection was successful');
     }
   }
 
