@@ -102,17 +102,21 @@ packages:
   dart_vlc:
     dependency: "direct main"
     description:
-      name: dart_vlc
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.9"
+      path: "."
+      ref: master
+      resolved-ref: dc71ce3a2d7a9203d6f8d11a25dad1fa8a05351e
+      url: "https://github.com/alexmercerind/dart_vlc.git"
+    source: git
+    version: "0.2.0"
   dart_vlc_ffi:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: dart_vlc_ffi
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.5+1"
+      path: ffi
+      ref: master
+      resolved-ref: dc71ce3a2d7a9203d6f8d11a25dad1fa8a05351e
+      url: "https://github.com/alexmercerind/dart_vlc.git"
+    source: git
+    version: "0.1.6"
   event_bus:
     dependency: transitive
     description:
@@ -167,6 +171,15 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_native_view:
+    dependency: transitive
+    description:
+      path: "."
+      ref: "832dcf3dc0974edafd7dac592f703b260aeff502"
+      resolved-ref: "832dcf3dc0974edafd7dac592f703b260aeff502"
+      url: "https://github.com/alexmercerind/flutter_native_view.git"
+    source: git
+    version: "0.0.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter

@@ -83,9 +83,10 @@ class DartVLCExampleState extends State<DartVLCExample> {
   Widget build(BuildContext context) {
     return ScaffoldPage.scrollable(children: <Widget>[
       mat.Material(
-        child: Video(
-          playlistLength: medias.length,
+        child: Video(          
           player: player,
+          // width: 1280,
+          // height: 720,
           width: player.videoDimensions.width.toDouble(),
           height: player.videoDimensions.height.toDouble(),
           // width: MediaQuery.of(context).size.width * 0.9,
