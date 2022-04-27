@@ -37,7 +37,7 @@ class MqttState with ChangeNotifier {
       ..secure = false
       ..autoReconnect = true;
     _buildConnectionMessage();
-    _connectClient();
+    // _connectClient();
   }
 
   void setReceivedText(String text) {
