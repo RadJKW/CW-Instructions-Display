@@ -83,14 +83,14 @@ class DartVLCExampleState extends State<DartVLCExample> {
   Widget build(BuildContext context) {
     return ScaffoldPage.scrollable(children: <Widget>[
       mat.Material(
-        child: Video(          
+        child: Video(
           player: player,
           // width: 1280,
           // height: 720,
-          width: player.videoDimensions.width.toDouble(),
-          height: player.videoDimensions.height.toDouble(),
-          // width: MediaQuery.of(context).size.width * 0.9,
-          // height: MediaQuery.of(context).size.height * 0.75,
+          // width: player.videoDimensions.width.toDouble(),
+          // height: player.videoDimensions.height.toDouble(),
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: MediaQuery.of(context).size.height * 0.75,
           volumeThumbColor: Colors.blue,
           volumeActiveColor: Colors.blue,
         ),
@@ -112,18 +112,20 @@ class DartVLCExampleState extends State<DartVLCExample> {
                       FluentIcons.box_play_solid,
                       size: 30,
                     ),
-                    onPressed: () async{
+                    onPressed: () async {
                       // if controller.text is not empty
                       // then set videoPath to controller.text
                       // else open the playlist with videoPath
                       if (controller.text.isNotEmpty) {
-                          videoPath = controller.text;
-                        }
-                        controller.text = videoPath;
+                        videoPath = controller.text;
+                      }
+                      controller.text = videoPath;
                       setState(() {
-                        
                         medias.clear();
-                        medias.add(Media.file(File(videoPath)));
+                        mediaType = MediaType.network;
+                        medias.add(Media.network(
+                            "https://media.w3.org/2010/05/sintel/trailer_hd.mp4"));
+                        // medias.add(Media.file(File(videoPath)));
                         player.open(Playlist(
                             medias: medias, playlistMode: PlaylistMode.single));
                       });
