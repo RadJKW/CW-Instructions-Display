@@ -58,6 +58,8 @@ class ControlSerial:
     def open_port(self):
         self.ser.port = self.port
         self.ser.baudrate = self.baudrate
+        self.filePath.touch(exist_ok=True)
+        
         if not self.ser.port:
             self.serial_error()
 
@@ -65,6 +67,7 @@ class ControlSerial:
             self.ser.open()
             return "Serial port {} succesffuly opened!".format(self.port)
         except Exception as e:
+            # create the file if it doesn't exist
             with (open(self.filePath, "a")) as fw1:
                 fw1.write(str(e) + "<\n")
                 fw1.close()
