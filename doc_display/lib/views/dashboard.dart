@@ -45,30 +45,30 @@ class _DashboardState extends State<Dashboard> {
               value: color,
               items: [
                 ComboboxItem(
+                  value: Colors.white,
                   child: Row(children: [
                     buildColorBox(Colors.white),
                     const SizedBox(width: 10.0),
                     const Text('White'),
                   ]),
-                  value: Colors.white,
                 ),
                 ComboboxItem(
+                  value: Colors.black,
                   child: Row(children: [
                     buildColorBox(Colors.black),
                     const SizedBox(width: 10.0),
                     const Text('Black'),
                   ]),
-                  value: Colors.black,
                 ),
                 ...List.generate(Colors.accentColors.length, (index) {
                   final color = Colors.accentColors[index];
                   return ComboboxItem(
+                    value: color,
                     child: Row(children: [
                       buildColorBox(color),
                       const SizedBox(width: 10.0),
                       Text(accentColorNames[index + 1]),
                     ]),
-                    value: color,
                   );
                 }),
               ],

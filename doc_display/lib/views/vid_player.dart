@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:dart_vlc/dart_vlc.dart';

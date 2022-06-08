@@ -39,7 +39,7 @@ class _FileBrowseState extends State<FileBrowse> {
     final padding = PageHeader.horizontalPadding(context);
     return ScaffoldPage(
         header: PageHeader(
-          title: Text('NFS: '+ _currentViewPath,
+          title: Text('NFS: $_currentViewPath',
               maxLines: 1, overflow: TextOverflow.ellipsis),
           commandBar: Expanded(
             child: AutoSuggestBox(

@@ -16,6 +16,7 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
+  // ignore: library_private_types_in_public_api
   _MyHomePageState createState() => _MyHomePageState();
 }
 
@@ -95,7 +96,8 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
           ),
         ),
         displayMode: appTheme.displayMode,
-        indicatorBuilder: NavigationIndicator.end,
+        indicator: const EndNavigationIndicator(),
+        
         items: [
           PaneItem(
               // index 0

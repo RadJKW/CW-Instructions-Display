@@ -80,8 +80,8 @@ class SettingsPage extends StatelessWidget {
         Wrap(children: [
           Tooltip(
             style: tooltipThemeData,
-            child: _buildColorBlock(appTheme, systemAccentColor),
             message: accentColorNames[0],
+            child: _buildColorBlock(appTheme, systemAccentColor),
           ),
           ...List.generate(Colors.accentColors.length, (index) {
             final color = Colors.accentColors[index];
