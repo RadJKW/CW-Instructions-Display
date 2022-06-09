@@ -97,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
           ),
         ),
         displayMode: appTheme.displayMode,
-        indicatorBuilder: NavigationIndicator.end,
+        indicator: const EndNavigationIndicator(),
         items: [
           PaneItem(
               // index 0
