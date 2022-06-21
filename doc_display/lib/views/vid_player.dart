@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:dart_vlc/dart_vlc.dart';
 import 'package:flutter/material.dart' as mat;
@@ -122,9 +124,9 @@ class DartVLCExampleState extends State<DartVLCExample> {
                       setState(() {
                         medias.clear();
                         mediaType = MediaType.network;
-                        medias.add(Media.network(
-                            "https://media.w3.org/2010/05/sintel/trailer_hd.mp4"));
-                        // medias.add(Media.file(File(videoPath)));
+                        // medias.add(Media.network(
+                            // "https://media.w3.org/2010/05/sintel/trailer_hd.mp4"));
+                        medias.add(Media.file(File(videoPath)));
                         player.open(Playlist(
                             medias: medias, playlistMode: PlaylistMode.single));
                       });
